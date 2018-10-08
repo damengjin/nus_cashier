@@ -62,7 +62,7 @@ var app = new Vue({
             if (this.countdown < 0) {
                 this.earn_stage = Math.round((this.multiplier * this.correct_num)*100)/100;
                 localStorage.setItem("earn3", this.earn_stage);
-                alert('Time is up. You have finished the test. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please wait......');
+                alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'random_fixed4.html';
                 return;
             }
@@ -124,7 +124,7 @@ var app = new Vue({
             if (this.current === this.round) {
                 this.earn_stage = Math.round((this.multiplier * this.correct_num)*100)/100;
                 localStorage.setItem("earn3", this.earn_stage);
-                alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please wait......');
+                alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'random_fixed4.html';
                 return;
             }
@@ -198,7 +198,7 @@ var app = new Vue({
 
             // compare
             if (Math.round(this.result * 100) < Math.round(this.change * 100)) {
-                alert('You have short changed the customer');
+                alert('You have short changed the customer!');
                 this.short++;
                 return;
             } else if (Math.round(this.result * 100) == Math.round(this.change * 100)){

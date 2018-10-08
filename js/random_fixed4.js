@@ -35,7 +35,7 @@ var app = new Vue({
             }
 
             localStorage.setItem("earn4", this.earn4);
-            alert('The computer has randomly chosen row ' + this.random_row +'. Based on your selection, you will earn a ' + this.ansStr + 'You will receive S$' + this.earn4 + ' in this stage. Please wait......');
+            alert('The computer has randomly chosen row ' + this.random_row +'. Based on your selection, you will earn a ' + this.ansStr + 'You will receive S$' + this.earn4 + ' in this stage. Please do NOT press any button and wait for instructions......');
             window.location = 'Adding_numbers5.html';
             return;
         }
