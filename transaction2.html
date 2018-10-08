@@ -1,0 +1,130 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+<div id="transaction2">
+    <div class="row text-center">
+        <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+    </div><br/>
+    <div class="row text-center">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2 alert alert-warning">Time left: <b>{{formatTime}}</b></div>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2 alert alert-info">To collect: ${{price}} </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2 alert alert-success">Tender: ${{pay}}</div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2 alert alert-danger">Change: <b>${{change}}</b></div>
+    </div>
+
+
+
+
+    <div>
+        <div class="row text-center margin0">
+                <div class="col-sm-4">
+                    <img src="img/ten.png"/><br/><br/>
+                    <button class="btn btn-danger" v-on:click="sub('ten')">-</button>
+                    <span class="well well-sm">{{ten}}</span>
+                    <button class="btn btn-success" v-on:click="add('ten')">+</button>
+                </div>
+                <div class="col-sm-4">
+                    <img src="img/five.png"/><br/><br/>
+                    <button class="btn btn-danger" v-on:click="sub('five')">-</button>
+                    <span class="well well-sm">{{five}}</span>
+                    <button class="btn btn-success" v-on:click="add('five')">+</button>
+                </div>
+                <div class="col-sm-4">
+                    <img src="img/two.png"/><br/><br/>
+                    <button class="btn btn-danger" v-on:click="sub('two')">-</button>
+                    <span class="well well-sm">{{two}}</span>
+                    <button class="btn btn-success" v-on:click="add('two')">+</button>
+                </div>
+        </div></br>
+
+        <div class="row backimage">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2 text-center">
+                <img src="img/dollar.png" width="100px"/><br/><br/>
+            </div>
+            <div class="col-sm-2 text-center">
+                <img class="top10" src="img/fiftyc.png" width="80px"/><br/><br/>
+            </div>
+            <div class="col-sm-2 text-center">
+                <img class="top125" src="img/twentyc.png" width="75px"/><br/><br/>
+            </div>
+            <div class="col-sm-2 text-center">
+                <img class="top15" src="img/tenc.png" width="70px"/><br/><br/>
+            </div>
+            <div class="col-sm-2 text-center">
+                <img class="top20" src="img/fivec.png" width="60px"/><br/><br/>
+            </div>
+            <div class="col-sm-1"></div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2 text-center">
+                <button class="btn btn-danger" v-on:click="sub('one')">-</button>
+                <span class="well well-sm">{{one}}</span>
+                <button class="btn btn-success" v-on:click="add('one')">+</button>
+            </div>
+            <div class="col-sm-2 text-center">
+                <button class="btn btn-danger" v-on:click="sub('fiftyc')">-</button>
+                <span class="well well-sm">{{fiftyc}}</span>
+                <button class="btn btn-success" v-on:click="add('fiftyc')">+</button>
+            </div>
+            <div class="col-sm-2 text-center">
+                <button class="btn btn-danger" v-on:click="sub('twentyc')">-</button>
+                <span class="well well-sm">{{twentyc}}</span>
+                <button class="btn btn-success" v-on:click="add('twentyc')">+</button>
+            </div>
+            <div class="col-sm-2 text-center">
+                <button class="btn btn-danger" v-on:click="sub('tenc')">-</button>
+                <span class="well well-sm">{{tenc}}</span>
+                <button class="btn btn-success" v-on:click="add('tenc')">+</button>
+            </div>
+            <div class="col-sm-2 text-center">
+                <button class="btn btn-danger" v-on:click="sub('fivec')">-</button>
+                <span class="well well-sm">{{fivec}}</span>
+                <button class="btn btn-success" v-on:click="add('fivec')">+</button>
+            </div>
+            <div class="col-sm-1"></div>
+
+        </div></br>
+
+        <div class="row text-center">
+            <button class="btn btn-info" v-on:click="onSubmit">Submit</button>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+  <script src="js/transaction2.js"></script>
+</body>
+</html>
