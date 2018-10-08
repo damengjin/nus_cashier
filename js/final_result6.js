@@ -5,18 +5,18 @@ earn_trans2 = parseFloat(parseFloat(localStorage.getItem('earn2')).toFixed(2));
 earn_trans3 = parseFloat(parseFloat(localStorage.getItem('earn3')).toFixed(2));
 earn_trans4 = parseFloat(parseFloat(localStorage.getItem('earn4')).toFixed(2));
 earn_trans5 = parseFloat(parseFloat(localStorage.getItem('earn5')).toFixed(2));
-earn_play = this.earn_trans1 + this.earn_trans2 + this.earn_trans3 + this.earn_trans4 + this.earn_trans5;
+earn_play = Math.round((this.earn_trans1 + this.earn_trans2 + this.earn_trans3 + this.earn_trans4 + this.earn_trans5)*100)/100;
 show_up = 4.00;
 total_fee = Math.round((earn_play + show_up)*100)/100;
 
-document.getElementById("stage1").innerHTML = "The Stage 1 Cashier earning is : <b>" + earn_trans1 + "</b>";
-document.getElementById("stage2").innerHTML = "The Stage 2 Cashier earning is : <b>" + earn_trans2 + "</b>";
-document.getElementById("stage3").innerHTML = "The Stage 3 Cashier earning is : <b>" + earn_trans3 + "</b>";
-document.getElementById("stage4").innerHTML = "The Stage 4 Cashier earning is : <b>" + earn_trans4 + "</b>";
-document.getElementById("stage5").innerHTML = "The Stage 5 Cashier earning is : <b>" + earn_trans5 + "</b>";
-document.getElementById("earnplay").innerHTML = "Earning due to playing is : <b>" + earn_play + "</b>";
-document.getElementById("showup").innerHTML = "The show-up fee is : <b>" + show_up + "</b>";
-document.getElementById("total").innerHTML = "The Final Earning is : <b>" + total_fee + "</b>";
+document.getElementById("stage1").innerHTML = "The Stage 1 Cashier Earning is: S$<b>" + earn_trans1 + "</b>";
+document.getElementById("stage2").innerHTML = "The Stage 2 Cashier Earning is: S$<b>" + earn_trans2 + "</b>";
+document.getElementById("stage3").innerHTML = "The Stage 3 Cashier Earning is: S$<b>" + earn_trans3 + "</b>";
+document.getElementById("stage4").innerHTML = "The Stage 4 Random or Fixed Payment Earning is: S$<b>" + earn_trans4 + "</b>";
+document.getElementById("stage5").innerHTML = "The Stage 5 Number Addition earning is: S$<b>" + earn_trans5 + "</b>";
+document.getElementById("earnplay").innerHTML = "Stage Earning is: S$<b>" + earn_play + "</b>";
+document.getElementById("showup").innerHTML = "The Show-up Fee is : S$<b>" + show_up + "</b>";
+document.getElementById("total").innerHTML = "The Final Earning is : S$<b>" + total_fee + "</b>";
 
 function sendResult (fullURL) {
     var xhttp = new XMLHttpRequest();
