@@ -74,6 +74,11 @@ var app = new Vue({
             }, 1000);
         },
 
+        // nextpage() {
+        //     confirm("Press ONLY when you're told to DO SO!");
+        //     window.location = 'transaction2.html';
+        // },
+
         add (val) {
             console.log('++');
             this[val]++;
@@ -127,6 +132,7 @@ var app = new Vue({
                 this.earn_stage = Math.round(((0.5 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
                 alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                this.nextpage();
                 window.location = 'transaction2.html';
                 return;
             }
@@ -148,33 +154,33 @@ var app = new Vue({
         questionBase () {
                 this.questions = [
                         [95.65,100],
-                        [31.9,50],
+                        [31.90,50],
                         [4.55,6],
                         [12.95,50],
-                        [1.3,5],
+                        [1.30,5],
                         [71.35,100],
-                        [58.8,60],
+                        [58.80,60],
                         [28.85,50],
-                        [22.3,50],
-                        [57.8,100],
+                        [22.30,50],
+                        [57.80,100],
                         [27.25,30],
-                        [55.6,100],
+                        [55.60,100],
                         [32.45,50],
                         [10.85,15],
                         [2.75,5],
                         [68.45,70],
-                        [88,100],
-                        [73.9,100],
-                        [53.8,60],
-                        [12.2,20],
-                        [19.7,20],
+                        [88.00,100],
+                        [73.90,100],
+                        [53.80,60],
+                        [12.20,20],
+                        [19.70,20],
                         [35.25,50],
-                        [76.3,100],
+                        [76.30,100],
                         [99.65,100],
                         [5.35,7],
-                        [66.8,70],
-                        [24.8,30],
-                        [56.2,100],
+                        [66.80,70],
+                        [24.80,30],
+                        [56.20,100],
                         [33.35,50],
                         [88.15,100]
                 ];
