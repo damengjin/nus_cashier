@@ -1,13 +1,13 @@
 
 userid = localStorage.getItem("id");
-earn_trans1 = parseFloat(localStorage.getItem('earn1'));
-earn_trans2 = parseFloat(localStorage.getItem('earn2'));
-earn_trans3 = parseFloat(localStorage.getItem('earn3'));
-earn_trans4 = parseFloat(localStorage.getItem('earn4'));
-earn_trans5 = parseFloat(localStorage.getItem('earn5'));
-earn_play = earn_trans1 + earn_trans2 + earn_trans3 + earn_trans4 + earn_trans5;
-show_up = 4;
-total_fee = earn_play + show_up;
+earn_trans1 = parseFloat(localStorage.getItem('earn1')).toFixed(2);
+earn_trans2 = parseFloat(localStorage.getItem('earn2')).toFixed(2);
+earn_trans3 = parseFloat(localStorage.getItem('earn3')).toFixed(2);
+earn_trans4 = parseFloat(localStorage.getItem('earn4')).toFixed(2);
+earn_trans5 = parseFloat(localStorage.getItem('earn5')).toFixed(2);
+earn_play = Math.round((earn_trans1 + earn_trans2 + earn_trans3 + earn_trans4 + earn_trans5)*100)/100;
+show_up = 4.00;
+total_fee = Math.round((earn_play + show_up)*100)/100;
 
 document.getElementById("stage1").innerHTML = "The Stage 1 Cashier earning is : <b>" + earn_trans1 + "</b>";
 document.getElementById("stage2").innerHTML = "The Stage 2 Cashier earning is : <b>" + earn_trans2 + "</b>";
