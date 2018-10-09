@@ -13,6 +13,7 @@ var app = new Vue({
         short: 0,
         questions: [],
         multiplier: parseFloat(localStorage.getItem('multiplier')),
+        prevExcess: 0,
 
         ten: 0,
         five: 0,
@@ -198,6 +199,7 @@ var app = new Vue({
             // calculate
             this.result = parseInt(this.ten) * 10 + parseInt(this.five) * 5 + parseInt(this.two) * 2 + parseInt(this.one) + parseInt(this.fiftyc) * 0.5 + parseInt(this.twentyc) * 0.2 + parseInt(this.tenc) * 0.1 +
                 parseInt(this.fivec) * 0.05;
+            this.prevExcess = 0;
 
             // compare
             if (Math.round(this.result * 100) < Math.round(this.change * 100)) {
@@ -209,6 +211,7 @@ var app = new Vue({
                 this.corr = 1;
             } else {
                 excess = Math.round((this.result - this.change)*100)/100;
+                this.prevExcess = excess;
                 this.store.excess.push(excess);
             }
             this.endTime = Date.now();
