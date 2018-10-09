@@ -13,6 +13,7 @@ var app = new Vue({
         short: 0,
         questions: [],
         prevExcess: 0,
+        change_show: '',
 
         ten: 0,
         five: 0,
