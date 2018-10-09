@@ -12,7 +12,7 @@ var app = new Vue({
       value3: 0,
       value4: 0,
       msg: [],
-      countdown: 20,
+      countdown: 180,
       startTime: 0,
       endTime: 0,
       usedTime: 0,

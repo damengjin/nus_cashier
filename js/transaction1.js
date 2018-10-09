@@ -33,7 +33,7 @@ var app = new Vue({
         endTime: 0,
         usedTime: 0,
 
-        countdown: 20,
+        countdown: 180,
         userNote: [5, 10, 50]
     },
 
@@ -46,7 +46,7 @@ var app = new Vue({
 
     computed: {
         change () {
-            return Math.round((this.pay - this.price) * 100)/100;
+            return parseFloat((Math.round((this.pay - this.price) * 100)/100).toFixed(2));
         },
         totalExcess () {
             return Math.round(this.store.excess.reduce((a, b) => a + b, 0)*100)/100;
