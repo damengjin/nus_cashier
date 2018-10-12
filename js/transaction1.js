@@ -10,6 +10,8 @@ var app = new Vue({
         pay_5: 0,
         pay_10: 0,
         pay_50: 0,
+        payment_input: 0,
+        num_paynotes: 0,
 
         round: 30,
         current: 0,
@@ -155,15 +157,17 @@ var app = new Vue({
             // new change
             this.price = this.questions[this.current - 1][0];
             this.pay = this.questions[this.current - 1][1];
-            this.pay_50 = this.pay / 50;
-            this.pay = this.pay % 50;
-            this.pay_10 = this.pay / 10;
-            this.pay = this.pay % 10;
-            this.pay_5 = this.pay / 5;
-            this.pay = this.pay % 5;
-            this.pay_2 = this.pay / 2;
-            this.pay = this.pay % 2;
-            this.pay_1 = this.pay / 1;
+            this.pay_copy = this.pay;
+            this.pay_50 = this.pay_copy / 50;
+            this.pay_copy = this.pay_copy % 50;
+            this.pay_10 = this.pay_copy / 10;
+            this.pay_copy = this.pay_copy % 10;
+            this.pay_5 = this.pay_copy / 5;
+            this.pay_copy = this.pay_copy % 5;
+            this.pay_2 = this.pay_copy / 2;
+            this.pay_copy = this.pay_copy % 2;
+            this.pay_1 = this.pay_copy / 1;
+            this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1;
             
 
         },
