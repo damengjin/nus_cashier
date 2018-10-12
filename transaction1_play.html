@@ -20,7 +20,7 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% if {{type_ind}}==0 %}
+{% if {{type_ind[{{current}}]}}==0 %}
 
                         <body>
                         <div id="transaction1">
@@ -42,10 +42,23 @@
                                 <div class="col-sm-2 alert alert-danger">Change: <b>${{change}}</b></div>
                             </div>
 
+                            <div>
+                                <input id="btn1" type="button" onclick="input(this);" />
+                                <input id="btn2" type="button" onclick="input(this);" />
+                                <input id="btn3" type="button" onclick="input(this);" />
+                                <br />
+                                <input id="btn4" type="button" onclick="input(this);" />
+                                <input id="btn5" type="button" onclick="input(this);" />
+                                <input id="btn6" type="button" onclick="input(this);" />
+                                <br />
+                                <input id="btn7" type="button" onclick="input(this);" />
+                                <input id="btn8" type="button" onclick="input(this);" />
+                                <input id="btn9" type="button" onclick="input(this);" />
+                                <br />
+                                <input id="btn0" type="button" onclick="input(this)" />
+                                <input id="btnDel" type="button" value="Backspace" onclick="del();" />
+                            </div>
 
-
-
-                            
 
 
                             <div>

@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: 0,
+        type_ind: [0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0],
         price: 0,
         pay: 0,
         pay_1: 0,
@@ -12,6 +12,8 @@ var app = new Vue({
         pay_50: 0,
         payment_input: 0,
         num_paynotes: 0,
+        paynotes:[],
+        tbInput: 0,
 
         round: 30,
         current: 0,
@@ -43,7 +45,7 @@ var app = new Vue({
         endTime: 0,
         usedTime: 0,
 
-        countdown: 180,
+        countdown: 300,
         userNote: [5, 10, 50]
     },
 
@@ -90,11 +92,39 @@ var app = new Vue({
         //     window.location = 'transaction2.html';
         // },
 
+        paynotedisp () {
+            if (this.num_paynotes > 0){
+                this.num_paynotes--;
+                let ind=1;
+                if (this.pay_50 != 0) {
+                    this.paynotes[ind] = "fifty.jpg";
+                    this.pay_50 --;
+                }
+                else if (this.pay_10 != 0) {
+                    this.paynotes[ind] = "ten.png";
+                    this.pay_10 --;
+                }
+                else if (this.pay_5 != 0) {
+                    this.paynotes[ind] = "five.png";
+                    this.pay_5 --;
+                }
+                else if (this.pay_2 != 0) {
+                    this.paynotes[ind] = "two.png";
+                    this.pay_2 --;
+                }
+                else if (this.pay_1 != 0) {
+                    this.paynotes[ind] = "dollar.png";
+                    this.pay_1 --;
+                }
+                ind++
+            }
+        },
+
         add (val) {
             console.log('++');
             this[val]++;
             if (val == 'ten'){value = 10;}
-            else if (val == "five") { value = 5; }
+            else if (val == "five") {value = 5; }
             else if (val == "two") {value = 2;}
             else if (val == "one") {value = 1;}
             else if (val == "fiftyc") {value = 0.5;}
@@ -108,8 +138,8 @@ var app = new Vue({
             console.log('++')
             if (this[val] > 0){
                 this[val]--;
-                if (val == 'ten'){value = 10;}
-                else if (val == "five") { value = 5; }
+                if (val == 'ten'){value = 10; }
+                else if (val == "five") {value = 5;}
                 else if (val == "two") {value = 2;}
                 else if (val == "one") {value = 1;}
                 else if (val == "fiftyc") {value = 0.5;}
@@ -118,6 +148,16 @@ var app = new Vue({
                 else if (val == "fivec") {value = 0.05;}
                 this.seqSelect.push("-" + value);
             }
+        },
+
+        input (val) {
+            this.tbInput = document.getElementById("tbInput”);
+            this.tbInput = this.tbInput.value + val;
+        },
+         
+        del () {
+            var tbInput = document.getElementById("tbInput");
+            tbInput.value = tbInput.value.substr(0, tbInput.value.length - 1);
         },
 
         clear() {
