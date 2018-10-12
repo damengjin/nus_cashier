@@ -2,8 +2,15 @@ var app = new Vue({
     el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
+        type_ind: 0,
         price: 0,
         pay: 0,
+        pay_1: 0,
+        pay_2: 0,
+        pay_5: 0,
+        pay_10: 0,
+        pay_50: 0,
+
         round: 30,
         current: 0,
         cor: 0,
@@ -42,7 +49,7 @@ var app = new Vue({
         this.questionBase();
         this.next(false);
         this.tick();
-
+        this.type_ind = Math.random() < 0.5 ? 0 : 1;
     },
 
     computed: {
@@ -131,7 +138,7 @@ var app = new Vue({
             this.startTime = Date.now();
 
             if (this.current === this.round) {
-                this.earn_stage = Math.round(((0.5 * this.correct_num) - this.totalExcess) * 100) / 100;
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
                 alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 this.nextpage();
@@ -148,8 +155,16 @@ var app = new Vue({
             // new change
             this.price = this.questions[this.current - 1][0];
             this.pay = this.questions[this.current - 1][1];
-
-
+            this.pay_50 = this.pay / 50;
+            this.pay = this.pay % 50;
+            this.pay_10 = this.pay / 10;
+            this.pay = this.pay % 10;
+            this.pay_5 = this.pay / 5;
+            this.pay = this.pay % 5;
+            this.pay_2 = this.pay / 2;
+            this.pay = this.pay % 2;
+            this.pay_1 = this.pay / 1;
+            
 
         },
 
