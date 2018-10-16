@@ -2,7 +2,12 @@ var app = new Vue({
     el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0],
+        type_ind: [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0],
+
         price: 0,
         pay: 0,
         pay_1: 0,
@@ -11,9 +16,11 @@ var app = new Vue({
         pay_10: 0,
         pay_50: 0,
         payment_input: 0,
-        num_paynotes: 0,
-        paynotes:[],
-        tbInput: 0,
+        change_input: 0,
+        num_paynotes: 0, 
+        card_type: '',
+        Cardlist: ['Visa', 'Master Card', 'Nets', 'Nets Cashcard'],
+        cardpick: '',
 
         round: 30,
         current: 0,
@@ -46,29 +53,63 @@ var app = new Vue({
         usedTime: 0,
 
         countdown: 300,
-        userNote: [5, 10, 50]
+        userNote: [5, 10, 50],
+
+        currentCountdown: 10,
+
+        show_num_pad: false,
+        num_pad_input: '',
+        show_notes: false,
+        show_card: true
     },
 
     created () {
         this.questionBase();
+
+        // reset round countdown
+        this.resetCurrentCountdown();
+        
+        this.currentRoundTick();
+
         this.next(false);
         this.tick();
-        this.type_ind = Math.random() < 0.5 ? 0 : 1;
     },
 
     computed: {
-        change () {
+        changetrue () {
             return parseFloat((Math.round((this.pay - this.price) * 100)/100).toFixed(2));
+        },
+        changebypay () {
+            return parseFloat((Math.round((this.payment_input - this.price) * 100)/100).toFixed(2));
         },
         totalExcess () {
             return Math.round(this.store.excess.reduce((a, b) => a + b, 0)*100)/100;
         },
         formatTime () {
-                if (this.countdown % 60  < 10){
-                        second = "0" + this.countdown % 60;
-                }
-                else {second = this.countdown % 60; }
+            if (this.countdown % 60  < 10){
+                second = "0" + this.countdown % 60;
+            }
+            else {second = this.countdown % 60; }
             return Math.floor(this.countdown / 60) + ":" + second;
+        },
+        currentFormatTime () {
+            if (this.currentCountdown % 60  < 10){
+                second = "0" + this.currentCountdown % 60;
+            }
+            else {second = this.currentCountdown % 60; }
+        return Math.floor(this.currentCountdown / 60) + ":" + second;
+        },
+
+        card_type_img () {
+            if (this.card_type === 'Visa') {
+                return 'five.png';
+            } else if (this.card_type === 'Master Card') {
+                return 'ten.png';
+            } else if (this.card_type === 'Nets') {
+                return 'two.png';
+            } else if (this.card_type === 'Nets Cashcard') {
+                return 'fifty.jpg';
+            }
         }
     },
 
@@ -87,38 +128,25 @@ var app = new Vue({
             }, 1000);
         },
 
+        currentRoundTick () {
+            if (this.currentCountdown < 0) {
+                //this.resetCurrentCountdown();
+                this.next();
+            }
+            setTimeout(() => {
+                this.currentCountdown--;
+                this.currentRoundTick();
+            }, 1000);
+        },
+
+        resetCurrentCountdown () {
+            this.currentCountdown = 10;
+        },
+
         // nextpage() {
         //     confirm("Press ONLY when you're told to DO SO!");
         //     window.location = 'transaction2.html';
         // },
-
-        paynotedisp () {
-            if (this.num_paynotes > 0){
-                this.num_paynotes--;
-                let ind=1;
-                if (this.pay_50 != 0) {
-                    this.paynotes[ind] = "fifty.jpg";
-                    this.pay_50 --;
-                }
-                else if (this.pay_10 != 0) {
-                    this.paynotes[ind] = "ten.png";
-                    this.pay_10 --;
-                }
-                else if (this.pay_5 != 0) {
-                    this.paynotes[ind] = "five.png";
-                    this.pay_5 --;
-                }
-                else if (this.pay_2 != 0) {
-                    this.paynotes[ind] = "two.png";
-                    this.pay_2 --;
-                }
-                else if (this.pay_1 != 0) {
-                    this.paynotes[ind] = "dollar.png";
-                    this.pay_1 --;
-                }
-                ind++
-            }
-        },
 
         add (val) {
             console.log('++');
@@ -150,14 +178,39 @@ var app = new Vue({
             }
         },
 
-        input (val) {
-            this.tbInput = document.getElementById("tbInput”);
-            this.tbInput = this.tbInput.value + val;
+        pad_input (val) {
+            this.num_pad_input += val;
         },
-         
-        del () {
-            var tbInput = document.getElementById("tbInput");
-            tbInput.value = tbInput.value.substr(0, tbInput.value.length - 1);
+
+        pad_backspace () {
+            if (this.num_pad_input.length > 0) {
+                this.num_pad_input = this.num_pad_input.slice(0, this.num_pad_input.length-1);
+            }
+        },
+
+        pad_submit () {
+            if (this.type_ind[this.current-1]===0){
+                this.show_num_pad = false;
+                this.show_notes = true;
+                this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
+
+            } else {
+                this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
+                // compare
+                if (this.payment_input != this.price) {
+                    alert('You key in the wrong number!');
+                    return;
+                } else {
+                    this.correct_num ++;
+                    this.corr = 1;
+                }
+                this.endTime = Date.now();
+                this.usedTime = (this.endTime - this.startTime ) / 1000;
+                var URL = this.URLGenerator();
+                this.sendResult(URL);
+
+                this.next();
+            }
         },
 
         clear() {
@@ -173,6 +226,9 @@ var app = new Vue({
             this.corr = 0;
             this.usedTime = 0;
             this.short = 0;
+            this.num_pad_input = '';
+            this.card_type = '';
+            this.payment_input = 0;
         },
 
         next (submit=true) {
@@ -183,13 +239,18 @@ var app = new Vue({
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
                 alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                this.nextpage();
+                //this.nextpage();
                 window.location = 'transaction2.html';
                 return;
             }
 
             // clear
             this.clear();
+            console.log(this.type_ind[this.current])
+            if (this.type_ind[this.current]===1){
+                this.card_type = this.Cardlist[Math.floor(Math.random() * this.Cardlist.length)];
+            }
+            this.show_current_round_page();
 
             // increase round
             this.current++;
@@ -198,18 +259,30 @@ var app = new Vue({
             this.price = this.questions[this.current - 1][0];
             this.pay = this.questions[this.current - 1][1];
             this.pay_copy = this.pay;
-            this.pay_50 = this.pay_copy / 50;
-            this.pay_copy = this.pay_copy % 50;
-            this.pay_10 = this.pay_copy / 10;
-            this.pay_copy = this.pay_copy % 10;
-            this.pay_5 = this.pay_copy / 5;
-            this.pay_copy = this.pay_copy % 5;
-            this.pay_2 = this.pay_copy / 2;
-            this.pay_copy = this.pay_copy % 2;
-            this.pay_1 = this.pay_copy / 1;
+            this.pay_50 = Math.floor(this.pay_copy / 50);
+            this.pay_copy %= 50;
+            this.pay_10 = Math.floor(this.pay_copy / 10);
+            this.pay_copy %= 10;
+            this.pay_5 = Math.floor(this.pay_copy / 5);
+            this.pay_copy %= 5;
+            this.pay_2 = Math.floor(this.pay_copy / 2);
+            this.pay_copy %= 2;
+            this.pay_1 = Math.floor(this.pay_copy / 1);
             this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1;
-            
 
+        },
+
+        show_current_round_page () {
+            this.resetCurrentCountdown();
+            if (this.type_ind[this.current] ===  0) {
+                this.show_card = false;
+                this.show_num_pad = true;
+                this.show_notes = false;
+            } else {
+                this.show_card = true;
+                this.show_num_pad = false;
+                this.show_notes = false;
+            }
         },
 
         questionBase () {
@@ -248,6 +321,13 @@ var app = new Vue({
 
         },
 
+        cardCheck () {
+            if (this.card_type != this.cardpick) {
+                alert('You Picked the Wrong Card Type!');
+                return;
+            }
+        },
+
         sendResult (fullURL) {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -267,15 +347,25 @@ var app = new Vue({
             this.prevExcess = 0;
 
             // compare
-            if (Math.round(this.result * 100) < Math.round(this.change * 100)) {
+            if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer');
-                this.short++;
+                this.short ++;
                 return;
-            } else if (Math.round(this.result * 100) == Math.round(this.change * 100)){
+            } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
+                alert('Customer has paid S$' + this.pay + '!! Check');
+                this.short ++;
+                this.show_card = false;
+                this.show_num_pad = true;
+                this.show_notes = false;
+                this.payment_input = 0;
+                this.num_pad_input = '';
+                this.resetCurrentCountdown();
+                return;
+            } else if (Math.round(this.result * 100) == Math.round(this.changebypay * 100)){
                 this.correct_num ++;
                 this.corr = 1;
             } else {
-                excess = Math.round((this.result - this.change)*100)/100;
+                excess = Math.round((this.result - this.changetrue)*100)/100;
                 this.prevExcess = excess;
                 this.store.excess.push(excess);
             }
@@ -283,8 +373,6 @@ var app = new Vue({
             this.usedTime = (this.endTime - this.startTime ) / 1000;
             var URL = this.URLGenerator();
             this.sendResult(URL);
-
-
 
             this.next();
         },
@@ -302,6 +390,9 @@ var app = new Vue({
             var changeName = "entry.1938361813";
             var changeCollectedName = "entry.2002870282";
             var shortName = "entry.879414864";
+            var payInputName = "entry.1880502092";
+            var CardTypeName = "entry.1752805968";
+            var TypeidName = "entry.272432963";
             var id = encodeURIComponent(this.userid);
             var question = encodeURIComponent(this.current);
             var seq = encodeURIComponent(this.seqSelect);
@@ -309,13 +400,16 @@ var app = new Vue({
             var timeStart = encodeURIComponent(this.startTime);
             var timeEnd = encodeURIComponent(this.endTime);
             var timeUsed = encodeURIComponent(this.usedTime);
-            var change = encodeURIComponent(this.change);
+            var change = encodeURIComponent(this.changetrue);
             var changeCollected = encodeURIComponent(this.result);
             var short = encodeURIComponent(this.short);
-            var fullURL = url + idName + "=" + id + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
+            var payInput = encodeURIComponent(this.payment_input);
+            var CardType = encodeURIComponent(this.card_type);
+            var Typeid = encodeURIComponent(this.type_ind);
+            var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
                 "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
                 "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
-                "&" + shortName + "=" + short + submitRef;
+                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + CardTypeName + "=" + CardType + submitRef;
             return fullURL;
         }
     }
