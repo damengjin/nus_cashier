@@ -98,17 +98,13 @@
 
         <div v-if="show_notes">
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-5">
-                    <div class="alert alert-danger">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="alert alert-warning">
                         Change: <b>${{changebypay}}</b>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="alert alert-danger">
-                        Current round: <b>${{currentFormatTime}}</b>
-                    </div>
-                </div>
+                <div class="col-sm-3"></div>
             </div>
             <div class="row text-center margin0">
                     <div class="col-sm-4">
@@ -197,23 +193,42 @@
 
         <div v-if="show_card">
             <div class="row text-center">
-                <div class="col-sm-5"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm-3">
                     <div class="alert alert-success">
                         Customer pay by <b>{{card_type}}</b> 
                         <div class="note-container">
-                            <img class="small-note" v-bind:src="'img/' + card_type_img" width="230"/> 
+                            <img class="small-note" v-bind:src="'img/' + card_type_img" width="200"/> 
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4"></div>
+                <!-- <div class="col-sm-3"></div> -->
+                <div class="col-sm-6">
+                        <div class="col-sm-3 card-type">
+                            <label for="visa"><img src="img/visa.jpg"></label><br/>
+                            <input type="radio" id='visa' value="visa" v-model='cardpick'>
+                                                <!--  v-on:click="cardCheck" -->
+                        </div>
+                        <div class="col-sm-3 card-type">
+                            <label for="master"><img src="img/master.jpg"/></label><br/>
+                            <input type="radio" id='master' value="master" v-model='cardpick'>
+                        </div>
+                        <div class="col-sm-3 card-type">
+                            <label for="nets"><img src="img/nets.jpg"/></label><br/>
+                            <input type="radio" id='nets' value="nets" v-model='cardpick'>
+                        </div>
+                        <div class="col-sm-3 card-type">
+                            <label for="cashcard"><img src="img/cashcard.png"/></label><br/>
+                            <input type="radio" id='cashcard' value="cashcard" v-model='cardpick'>
+                        </div>
+                </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-sm-3 card-type">
                     <label for="visa"><img src="img/visa.jpg"></label><br/>
                     <input type="radio" id='visa' value="visa" v-model='cardpick'>
-                    <!--  v-on:click="cardCheck" -->
+
                 </div>
                 <div class="col-sm-3 card-type">
                     <label for="master"><img src="img/master.jpg"/></label><br/>
@@ -227,7 +242,7 @@
                     <label for="cashcard"><img src="img/cashcard.png"/></label><br/>
                     <input type="radio" id='cashcard' value="cashcard" v-model='cardpick'>
                 </div>
-            </div>
+            </div> -->
 
 
             <div class="row">

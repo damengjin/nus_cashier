@@ -22,7 +22,7 @@ var app = new Vue({
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
-        round: 30,
+        round: 100,
         current: 0,
         cor: 0,
         correct_num: 0,
@@ -49,6 +49,8 @@ var app = new Vue({
         },
 
         seqSelect : [],
+        cardSelect: [],
+        cardPay: [],
 
         startTime: 0,
         endTime: 0,
@@ -118,7 +120,7 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage = Math.round(((0.5 * this.correct_num) - this.totalExcess) * 100) / 100;
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
                 alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'transaction2.html';
@@ -198,9 +200,11 @@ var app = new Vue({
 
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-                // compare
+                this.cardPay.push("-" + this.payment_input);
+                // count the wrong key in numbers
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
+                    this.correct_num --;
                     return;
                 } else {
                     this.correct_num ++;
@@ -225,6 +229,8 @@ var app = new Vue({
             this.tenc = 0;
             this.fivec = 0;
             this.seqSelect = [];
+            this.cardSelect = [];
+            this.cardPay = [];
             this.corr = 0;
             this.usedTime = 0;
             this.short = 0;
@@ -238,11 +244,19 @@ var app = new Vue({
         next (submit=true) {
             // time start
             this.startTime = Date.now();
-
+            //terminate with 3 wrong answers:
+            if ((this.current - this.correct_num) >= 3) {
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+                localStorage.setItem("earn1", this.earn_stage);
+                alert('You have made 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                window.location = 'transaction2.html';
+                return;
+            }
+            //finish all the 100 questions
             if (this.current === this.round) {
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                alert('You have finished maximum number of 100 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 //this.nextpage();
                 window.location = 'transaction2.html';
                 return;
@@ -261,18 +275,22 @@ var app = new Vue({
 
             // new change
             this.price = this.questions[this.current - 1][0];
-            this.pay = this.questions[this.current - 1][1];
-            this.pay_copy = this.pay;
-            this.pay_50 = Math.floor(this.pay_copy / 50);
-            this.pay_copy %= 50;
-            this.pay_10 = Math.floor(this.pay_copy / 10);
-            this.pay_copy %= 10;
-            this.pay_5 = Math.floor(this.pay_copy / 5);
-            this.pay_copy %= 5;
-            this.pay_2 = Math.floor(this.pay_copy / 2);
-            this.pay_copy %= 2;
-            this.pay_1 = Math.floor(this.pay_copy / 1);
-            this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1;
+            if (this.type_ind[this.current-1] ===  0) {
+                    this.pay = this.questions[this.current - 1][1];
+                    this.pay_copy = this.pay;
+                    this.pay_50 = Math.floor(this.pay_copy / 50);
+                    this.pay_copy %= 50;
+                    this.pay_10 = Math.floor(this.pay_copy / 10);
+                    this.pay_copy %= 10;
+                    this.pay_5 = Math.floor(this.pay_copy / 5);
+                    this.pay_copy %= 5;
+                    this.pay_2 = Math.floor(this.pay_copy / 2);
+                    this.pay_copy %= 2;
+                    this.pay_1 = Math.floor(this.pay_copy / 1);
+                    this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1;
+            } else {
+                this.pay = this.price;
+            }
 
         },
 
@@ -327,6 +345,7 @@ var app = new Vue({
 
         cardCheck () {
             console.log(this.cardpick)
+            this.cardSelect.push("+" + this.cardpick);
             if (this.card_type != this.cardpick) {
                 alert('You Picked the Wrong Card Type!');
                 return;
@@ -351,11 +370,12 @@ var app = new Vue({
                 parseInt(this.fivec) * 0.05;
             this.prevExcess = 0;
 
-            // compare
+            // short changed:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer');
                 this.short ++;
                 return;
+                // go back and correct the payment:
             } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
                 alert('Customer has paid S$' + this.pay + '!! Check');
                 this.short ++;
@@ -409,7 +429,7 @@ var app = new Vue({
             var change = encodeURIComponent(this.changetrue);
             var changeCollected = encodeURIComponent(this.result);
             var short = encodeURIComponent(this.short);
-            var payInput = encodeURIComponent(this.payment_input);
+            var payInput = encodeURIComponent(this.cardPay);
             var paytrue = encodeURIComponent(this.pay);
             var CardType = encodeURIComponent(this.card_type);
             var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
