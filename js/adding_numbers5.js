@@ -10,9 +10,9 @@ var app = new Vue({
       value1: 0,
       value2: 0,
       value3: 0,
-      value4: 0,
+    //   value4: 0,
       msg: [],
-      countdown: 180,
+      countdown: 60,
       startTime: 0,
       endTime: 0,
       usedTime: 0,
@@ -41,7 +41,7 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage5 = Math.round(0.5 * this.correct_num5 * 100) / 100;
+                this.earn_stage5 = Math.round(0.1 * this.correct_num5 * 100) / 100;
                 localStorage.setItem("earn5", this.earn_stage5);
                 alert('Time is up. You have correctly answered ' + this.correct_num5 + ' questions. Your earnings at this stage is: S$' + this.earn_stage5 + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'final_result6.html';
@@ -60,7 +60,7 @@ var app = new Vue({
         },
 
         get_sum () {
-            return this.value1 + this.value2 + this.value3 + this.value4;
+            return this.value1 + this.value2 + this.value3;
         },
 
         get_question () {
@@ -72,7 +72,7 @@ var app = new Vue({
             this.value1 = this.question[this.current-1][0];
             this.value2 = this.question[this.current-1][1];
             this.value3 = this.question[this.current-1][2];
-            this.value4 = this.question[this.current-1][3];
+            // this.value4 = this.question[this.current-1][3];
 
         },
 
