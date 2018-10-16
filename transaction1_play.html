@@ -33,21 +33,20 @@
         </div><br/>
         <div class="row text-center">
             <div class="col-sm-2"></div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="alert alert-danger">
                     Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
+                <div class="alert alert-info">
+                    To collect: <b>${{price}}</b>
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <div class="alert alert-info">
                     Last excess change: <b>${{prevExcess}}</b>
                 </div>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="alert alert-info">To collect: ${{price}} </div>
             </div>
         </div>
 
@@ -198,16 +197,16 @@
 
         <div v-if="show_card">
             <div class="row text-center">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-3">
                     <div class="alert alert-success">
-                        Customer chooses to pay by: 
+                        Customer pay by <b>{{card_type}}</b> 
                         <div class="note-container">
-                            <img class="small-note" v-bind:src="'img/' + card_type_img" width="150"/> 
+                            <img class="small-note" v-bind:src="'img/' + card_type_img" width="230"/> 
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2"></div>
+                <div class="col-sm-4"></div>
             </div>
 
             <div class="row">
