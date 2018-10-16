@@ -31,11 +31,11 @@ var app = new Vue({
 
             // return the payoff
             if (this.choices[this.scheme_num] === 1) {
-                this.multiplier = 0.5;
+                this.multiplier = 0.1;
                 this.deduct = 1;
                 this.Deductstr = 'Excess change will be deducted from your earnings.';
             } else {
-                this.multiplier = Math.round(0.05 * this.scheme_num*100)/100;
+                this.multiplier = Math.round(0.01 * this.scheme_num*100)/100;
                 this.deduct = 0;
                 this.Deductstr = 'Excess change will NOT be deducted from your earnings.';
             }

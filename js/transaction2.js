@@ -32,7 +32,7 @@ var app = new Vue({
         endTime: 0,
         usedTime: 0,
 
-        countdown: 180,
+        countdown: 300,
         userNote: [5, 10, 50]
     },
 

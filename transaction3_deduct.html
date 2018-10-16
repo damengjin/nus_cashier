@@ -21,12 +21,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body>
 <div id="transaction3_deduct">
+    <div class="row">
+        <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="60" v-bind:style="{ width: countdown/0.6 + '%' }">
+                {{formatTime}}
+            </div>
+        </div>
+    </div>
     <div class="row text-center">
         <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
     </div><br/>
     <div class="row text-center">
         <div class="col-sm-5"></div>
-        <div class="col-sm-2 alert alert-warning">Time left: <b>{{formatTime}}</b></div>
         <div class="col-sm-1"></div>
         <div class="col-sm-2 well">Last excess change: <b>{{prevExcess}}</b></div>
     </div>

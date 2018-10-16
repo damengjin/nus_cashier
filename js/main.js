@@ -9,6 +9,6 @@ function SaveID(){
     return;
   }
   localStorage.setItem('id', document.getElementById('idInput').value);
-  window.location.href='transaction1.html';
+  window.location.href='transaction1_play.html';
   return;
 }
