@@ -35,7 +35,7 @@
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
                 <div class="alert alert-danger">
-                    Time: <b>{{currentCountdown}}</b>
+                    Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -213,35 +213,32 @@
             <div class="row">
                 <div class="col-sm-3 card-type">
                     <label for="visa"><img src="img/visa.jpg"></label><br/>
-                    <input type="radio" id="visa" value="visa" v-model='cardpick'>
+                    <input type="radio" id='visa' value="visa" v-model='cardpick'>
+                    <!--  v-on:click="cardCheck" -->
                 </div>
                 <div class="col-sm-3 card-type">
                     <label for="master"><img src="img/master.jpg"/></label><br/>
-                    <input type="radio" id="master" value="master" v-model='cardpick'>
+                    <input type="radio" id='master' value="master" v-model='cardpick'>
                 </div>
                 <div class="col-sm-3 card-type">
                     <label for="nets"><img src="img/nets.jpg"/></label><br/>
-                    <input type="radio" id="nets" value="nets" v-model='cardpick'>
+                    <input type="radio" id='nets' value="nets" v-model='cardpick'>
                 </div>
                 <div class="col-sm-3 card-type">
                     <label for="cashcard"><img src="img/cashcard.png"/></label><br/>
-                    <input type="radio" id="cashcard" value="cashcard" v-model='cardpick'>
+                    <input type="radio" id='cashcard' value="cashcard" v-model='cardpick'>
                 </div>
             </div>
 
 
             <div class="row">
-                <div class="col-sm-8"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm-8">
-                    <div class="alert alert-danger">
+                    <div class="alert alert-warning">
                         Key in the amount to collect: <b>S${{num_pad_input}}</b>
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    <div class="alert alert-danger">
-                        Current round: <b>{{currentFormatTime}}</b>
-                    </div>
-                </div>
+                <div class="col-sm-2"></div>
             </div>
             
 

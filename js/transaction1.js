@@ -19,7 +19,7 @@ var app = new Vue({
         change_input: 0,
         num_paynotes: 0, 
         card_type: '',
-        Cardlist: ['Visa', 'Master Card', 'Nets', 'Nets Cashcard'],
+        Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
         round: 30,
@@ -32,6 +32,8 @@ var app = new Vue({
         questions: [],
         prevExcess: 0,
         change_show: '',
+        VisaCardList: ['visa1.png','visa2.jpg','visa3.png'],
+        MasterCardList: ['mastercard1.png','mastercard2.jpg','mastercard3.jpg','mastercard4.png'],
 
         ten: 0,
         five: 0,
@@ -101,14 +103,14 @@ var app = new Vue({
         },
 
         card_type_img () {
-            if (this.card_type === 'Visa') {
-                return 'five.png';
-            } else if (this.card_type === 'Master Card') {
-                return 'ten.png';
-            } else if (this.card_type === 'Nets') {
-                return 'two.png';
-            } else if (this.card_type === 'Nets Cashcard') {
-                return 'fifty.jpg';
+            if (this.card_type === 'visa') {
+                return this.VisaCardList[Math.floor(Math.random() * this.VisaCardList.length)];   
+            } else if (this.card_type === 'master') {
+                return this.MasterCardList[Math.floor(Math.random() * this.MasterCardList.length)];
+            } else if (this.card_type === 'nets') {
+                return 'nets1.jpg';
+            } else if (this.card_type === 'cashcard') {
+                return 'cashcard1.jpg';
             }
         }
     },
@@ -118,7 +120,7 @@ var app = new Vue({
             if (this.countdown < 0) {
                 this.earn_stage = Math.round(((0.5 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('Time is up! You have finished the test. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'transaction2.html';
                 return;
             }
@@ -229,6 +231,8 @@ var app = new Vue({
             this.num_pad_input = '';
             this.card_type = '';
             this.payment_input = 0;
+            this.cardpick = '';
+            this.result = 0;
         },
 
         next (submit=true) {
@@ -322,6 +326,7 @@ var app = new Vue({
         },
 
         cardCheck () {
+            console.log(this.cardpick)
             if (this.card_type != this.cardpick) {
                 alert('You Picked the Wrong Card Type!');
                 return;
@@ -391,6 +396,7 @@ var app = new Vue({
             var changeCollectedName = "entry.2002870282";
             var shortName = "entry.879414864";
             var payInputName = "entry.1880502092";
+            var paytrueName = "entry.291513397";
             var CardTypeName = "entry.1752805968";
             var TypeidName = "entry.272432963";
             var id = encodeURIComponent(this.userid);
@@ -404,12 +410,13 @@ var app = new Vue({
             var changeCollected = encodeURIComponent(this.result);
             var short = encodeURIComponent(this.short);
             var payInput = encodeURIComponent(this.payment_input);
+            var paytrue = encodeURIComponent(this.pay);
             var CardType = encodeURIComponent(this.card_type);
-            var Typeid = encodeURIComponent(this.type_ind);
+            var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
             var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
                 "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
                 "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
-                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + CardTypeName + "=" + CardType + submitRef;
+                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + submitRef;
             return fullURL;
         }
     }
