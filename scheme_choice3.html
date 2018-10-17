@@ -40,8 +40,8 @@
 
             <tr v-for="(choice, index) in choices">
                 <td>{{index + 1}}</td>
-                <td>Earn <b>S$0.50</b> for each correct transaction. Excess change will be deducted from your earnings</td>
-                <td>Earn <b>S${{ (0.05 * (index+1)).toFixed(2) }}</b> for each correct transaction. Excess change will <b>NOT</b> be deducted from your earnings</td>
+                <td>Earn <b>S$0.20</b> for each correct transaction. Excess change will be deducted from your earnings</td>
+                <td>Earn <b>S${{ (0.02 * (index+1)).toFixed(2) }}</b> for each correct transaction. Excess change will <b>NOT</b> be deducted from your earnings</td>
                 <td>
                     <select v-model="choices[index]" @change="onSelectChange(index)">
                         <option v-bind:value="1">Scheme 1</option>

@@ -27,10 +27,10 @@ var app = new Vue({
             this.random_row = Math.floor(Math.random() * 10) + 1;
 
             if (this.choices2[this.random_row - 1] === 1) {
-                this.earn4 = Math.random() < 0.5 ? 0 : 5;
+                this.earn4 = Math.random() < 0.5 ? 0 : 3;
                 this.ansStr = 'Random Payment. ';
             } else {
-                this.earn4 = 0.5 * (this.random_row-1);
+                this.earn4 = 0.3 * (this.random_row-1);
                 this.ansStr = 'Fixed Payment. ';
             }
 

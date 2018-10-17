@@ -41,8 +41,8 @@
 
             <tr v-for="(choice, index) in choices2">
                 <td>{{index + 1}}</td>
-                <td>50% chance to get <b>S$5</b>, and 50% chance to get <b>S$0</b></td>
-                <td>Earn <b>S${{ (0.50 * (index+1)).toFixed(2) }}</b> for sure</td>
+                <td>50% chance to get <b>S$3</b>, and 50% chance to get <b>S$0</b></td>
+                <td>Earn <b>S${{ (0.30 * (index+1)).toFixed(2) }}</b> for sure</td>
                 <td>
                     <select v-model="choices2[index]" @change="onSelectChange(index)">
                         <option v-bind:value="1">Random</option>
