@@ -2,10 +2,8 @@ var app = new Vue({
     el: '#transaction2',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            1, 1, 0, 1, 0, 0, 1, 0, 0, 1],
+        type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1],
 
         price: 0,
         pay: 0,
@@ -25,6 +23,7 @@ var app = new Vue({
         current: 0,
         cor: 0,
         correct_num: 0,
+        wrong_num: 0,
         earn_stage: 0,
         result: 0,
         short: 0,
@@ -65,7 +64,8 @@ var app = new Vue({
         show_notes: false,
         show_card: true,
 
-        currentCorrect: false
+        currentCorrect: false,
+        currentWrong: false
     },
 
     created () {
@@ -195,6 +195,7 @@ var app = new Vue({
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
                     this.currentCorrect = false;
+                    this.currentWrong = true;
                     this.num_pad_input = '';
                     return;
                 } else {
@@ -241,8 +242,13 @@ var app = new Vue({
             }
             this.currentCorrect = false;
 
+            if (this.currentWrong) {
+                this.wrong_num++;
+            }
+            this.currentWrong = false;
+
             //terminate with 3 wrong answers:
-            if ((this.current - this.correct_num) >= 3) {
+            if (this.wrong_num >= 3) {
                 this.earn_stage = Math.round((0.1 * this.correct_num) * 100) / 100;
                 localStorage.setItem("earn2", this.earn_stage);
                 alert('You have made 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
@@ -304,37 +310,56 @@ var app = new Vue({
 
         questionBase () {
                 this.questions = [
-                        [60.60,62],
-                        [78.20,100],
-                        [37.35,50],
-                        [73.80,80],
-                        [61.95,70],
-                        [3.25,10],
-                        [73.90,80],
-                        [1.75,5],
-                        [10.35,15],
-                        [68.05,100],
-                        [0.95,5],
-                        [9.70,10],
-                        [35.80,40],
-                        [96.60,100],
-                        [30.30,35],
-                        [31.35,32],
-                        [86.95,100],
-                        [24.60,50],
-                        [55.80,60],
-                        [21.15,25],
-                        [23.20,25],
-                        [91.75,100],
-                        [58.70,100],
-                        [32.75,50],
-                        [18.45,20],
-                        [36.40,50],
-                        [35.50,50],
-                        [73.15,100],
-                        [85.40,100],
-                        [23.95,50]
-
+                        [66.10,	100],
+                        [37.65,	50],
+                        [54.40,	60],
+                        [90.05,	100],
+                        [97.20,	100],
+                        [10.45,	12],
+                        [44.05,	45],
+                        [27.55,	50],
+                        [56.05,	60],
+                        [45.00,	50],
+                        [60.60,	65],
+                        [97.75,	100],
+                        [4.50,	10],
+                        [17.25,	20],
+                        [86.60,	100],
+                        [10.75,	15],
+                        [91.30,	100.3],
+                        [97.85,	100],
+                        [0.40,	2],
+                        [30.95,	50],
+                        [0.75,	0.8],
+                        [92.45,	95],
+                        [40.3,	50],
+                        [73.8,	75],
+                        [85.6,	90.6],
+                        [51.1,	52.1],
+                        [42.7,	45],
+                        [14.7,	15.7],
+                        [64.05,	100],
+                        [61.35,	70],
+                        [15.95,	17],
+                        [92.7,	95],
+                        [57.4,	60.4],
+                        [57.9,	60],
+                        [61.95,	70],
+                        [70.2, 80],
+                        [28.3,	30.3],
+                        [31.95,	35],
+                        [53.05,	55.05],
+                        [29,	50],
+                        [71.7,	80],
+                        [27.8,	50],
+                        [26.05,	30.05],
+                        [29.2,	30],
+                        [89.35,	90.35],
+                        [48.6,	50],
+                        [17.55,	20],
+                        [42.35,	45],
+                        [47.15,	50.15],
+                        [63.8,	65]
                 ];
 
         },
@@ -367,12 +392,14 @@ var app = new Vue({
             // short changed:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer');
+                this.currentWrong = true;
                 this.short ++;
                 return;
                 // go back and correct the payment:
             } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
                 alert('Customer has paid S$' + this.pay + '!! Check');
                 this.short ++;
+                this.currentWrong = true;
                 this.show_card = false;
                 this.show_num_pad = true;
                 this.show_notes = false;
@@ -386,6 +413,7 @@ var app = new Vue({
             } else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
                 this.prevExcess = excess;
+                this.currentWrong = true;
             }
             this.endTime = Date.now();
             this.usedTime = (this.endTime - this.startTime ) / 1000;
@@ -439,3 +467,7 @@ var app = new Vue({
     }
 
   })
+
+
+
+  

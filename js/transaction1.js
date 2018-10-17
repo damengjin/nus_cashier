@@ -2,10 +2,8 @@ var app = new Vue({
     el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            1, 1, 0, 1, 0, 0, 1, 0, 0, 1],
+        type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1],
 
         price: 0,
         pay: 0,
@@ -21,10 +19,11 @@ var app = new Vue({
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
-        round: 100,
+        round: 50,
         current: 0,
         cor: 0,
         correct_num: 0,
+        wrong_num:0,
         earn_stage: 0,
         result: 0,
         short: 0,
@@ -65,7 +64,8 @@ var app = new Vue({
         show_notes: false,
         show_card: true,
 
-        currentCorrect: false
+        currentCorrect: false,
+        currentWrong: false
     },
 
     created () {
@@ -202,6 +202,7 @@ var app = new Vue({
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
                     this.currentCorrect = false;
+                    this.currentWrong = true;
                     this.num_pad_input = '';
                     return;
                 } else {
@@ -248,19 +249,25 @@ var app = new Vue({
             }
             this.currentCorrect = false;
 
+            if (this.currentWrong) {
+                this.wrong_num++;
+            }
+            this.currentWrong = false;
+
             //terminate with 3 wrong answers:
-            if ((this.current - this.correct_num) >= 3) {
+            if ( this.wrong_num>= 3) {
+                //(this.current - this.correct_num)
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
                 alert('You have made 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'transaction2.html';
                 return;
             }
-            //finish all the 100 questions
+            //finish all the 50 questions
             if (this.current === this.round) {
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('You have finished maximum number of 100 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 //this.nextpage();
                 window.location = 'transaction2.html';
                 return;
@@ -313,36 +320,56 @@ var app = new Vue({
 
         questionBase () {
                 this.questions = [
-                        [95.65,100],
-                        [31.90,50],
-                        [4.55,6],
-                        [12.95,50],
-                        [1.30,5],
-                        [71.35,100],
-                        [58.80,60],
-                        [28.85,50],
-                        [22.30,50],
-                        [57.80,100],
-                        [27.25,30],
-                        [55.60,100],
-                        [32.45,50],
-                        [10.85,15],
-                        [2.75,5],
-                        [68.45,70],
-                        [88.00,100],
-                        [73.90,100],
-                        [53.80,60],
-                        [12.20,20],
-                        [19.70,20],
-                        [35.25,50],
-                        [76.30,100],
-                        [99.65,100],
-                        [5.35,7],
-                        [66.80,70],
-                        [24.80,30],
-                        [56.20,100],
-                        [33.35,50],
-                        [88.15,100]
+                    [95.65,	100],                
+                    [31.90,	35],        
+                    [4.55, 10.55],                
+                    [12.95,	50],
+                    [1.30, 5],
+                    [71.35,	80],
+                    [58.80,	60.8],
+                    [28.85,	50],
+                    [22.30,	30.3],
+                    [57.80,	100],
+                    [27.25,	30],
+                    [55.60,	100.6],
+                    [32.45,	50.5],
+                    [10.85,	15],
+                    [2.75, 5],
+                    [68.45,	70.5],
+                    [88.00,	100],
+                    [73.90,	100],
+                    [53.80,	60.8],
+                    [12.20,	20.2],
+                    [19.70,	20],
+                    [35.25,	50],
+                    [76.30,	100],
+                    [99.65,	100.65],
+                    [5.35, 7],
+                    [66.80,	70],
+                    [24.80,	30],
+                    [56.20,	76.2],
+                    [33.35,	53.5],
+                    [88.15,	90],
+                    [16.90,	40],
+                    [92.90,	100],
+                    [10.30,	12.3],
+                    [10.10,	15],
+                    [95.70,	100.7],
+                    [14.15,	20.2],
+                    [27.10,	30],
+                    [14.00,	20],
+                    [47.85,	50],
+                    [4.05, 5.05],
+                    [55.55,	60],
+                    [37.15,	40.15],
+                    [24.50,	26],
+                    [44.60,	50],
+                    [34.55,	40],
+                    [26.25,	30],
+                    [94.60,	100],
+                    [78.50,	80.5],
+                    [14.65,	20.65],
+                    [47.40,	50]
                 ];
 
         },
@@ -376,12 +403,14 @@ var app = new Vue({
             // short changed:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer');
+                this.currentWrong = true;
                 this.short ++;
                 return;
                 // go back and correct the payment:
             } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
                 alert('Customer has paid S$' + this.pay + '!! Check');
                 this.short ++;
+                this.currentWrong = true;
                 this.show_card = false;
                 this.show_num_pad = true;
                 this.show_notes = false;
@@ -394,6 +423,8 @@ var app = new Vue({
                 this.corr = 1;
             } else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
+                alert('You will have excess S$' + excess + ' deducted from your earning!!');
+                this.currentWrong = true;
                 this.prevExcess = excess;
                 this.store.excess.push(excess);
             }
@@ -447,3 +478,9 @@ var app = new Vue({
     }
 
   })
+
+
+
+
+
+
