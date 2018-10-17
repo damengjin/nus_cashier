@@ -2,11 +2,10 @@ var app = new Vue({
     el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
+        type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
             0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
             0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
-            0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0],
+            1, 1, 0, 1, 0, 0, 1, 0, 0, 1],
 
         price: 0,
         pay: 0,
@@ -71,12 +70,9 @@ var app = new Vue({
 
     created () {
         this.questionBase();
-
         // reset round countdown
         this.resetCurrentCountdown();
-        
-        //this.currentRoundTick();
-
+        this.currentRoundTick();
         this.next(false);
         this.tick();
     },
@@ -136,7 +132,6 @@ var app = new Vue({
 
         currentRoundTick () {
             if (this.currentCountdown < 0) {
-                //this.resetCurrentCountdown();
                 this.next();
             }
             setTimeout(() => {
@@ -207,6 +202,7 @@ var app = new Vue({
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
                     this.currentCorrect = false;
+                    this.num_pad_input = '';
                     return;
                 } else {
                     this.currentCorrect = true;
@@ -393,7 +389,7 @@ var app = new Vue({
                 this.num_pad_input = '';
                 this.resetCurrentCountdown();
                 return;
-            } else if (Math.round(this.result * 100) == Math.round(this.changebypay * 100)){
+            } else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
                 this.currentCorrect = true;
                 this.corr = 1;
             } else {
