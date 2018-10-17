@@ -64,7 +64,9 @@ var app = new Vue({
         show_num_pad: false,
         num_pad_input: '',
         show_notes: false,
-        show_card: true
+        show_card: true,
+
+        currentCorrect: false
     },
 
     created () {
@@ -73,7 +75,7 @@ var app = new Vue({
         // reset round countdown
         this.resetCurrentCountdown();
         
-        this.currentRoundTick();
+        //this.currentRoundTick();
 
         this.next(false);
         this.tick();
@@ -204,10 +206,10 @@ var app = new Vue({
                 // count the wrong key in numbers
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
-                    this.correct_num --;
+                    this.currentCorrect = false;
                     return;
                 } else {
-                    this.correct_num ++;
+                    this.currentCorrect = true;
                     this.corr = 1;
                 }
                 this.endTime = Date.now();
@@ -241,9 +243,15 @@ var app = new Vue({
             this.result = 0;
         },
 
-        next (submit=true) {
+        next () {
             // time start
             this.startTime = Date.now();
+
+            if (this.currentCorrect) {
+                this.correct_num++;
+            }
+            this.currentCorrect = false;
+
             //terminate with 3 wrong answers:
             if ((this.current - this.correct_num) >= 3) {
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
@@ -343,10 +351,9 @@ var app = new Vue({
 
         },
 
-        cardCheck () {
-            console.log(this.cardpick)
-            this.cardSelect.push("+" + this.cardpick);
-            if (this.card_type != this.cardpick) {
+        cardCheck (type) {
+            this.cardSelect.push("+" + type);
+            if (this.card_type != type) {
                 alert('You Picked the Wrong Card Type!');
                 return;
             }
@@ -387,7 +394,7 @@ var app = new Vue({
                 this.resetCurrentCountdown();
                 return;
             } else if (Math.round(this.result * 100) == Math.round(this.changebypay * 100)){
-                this.correct_num ++;
+                this.currentCorrect = true;
                 this.corr = 1;
             } else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
@@ -419,6 +426,7 @@ var app = new Vue({
             var paytrueName = "entry.291513397";
             var CardTypeName = "entry.1752805968";
             var TypeidName = "entry.272432963";
+            var CardpickName = "entry.1673565638";
             var id = encodeURIComponent(this.userid);
             var question = encodeURIComponent(this.current);
             var seq = encodeURIComponent(this.seqSelect);
@@ -433,10 +441,11 @@ var app = new Vue({
             var paytrue = encodeURIComponent(this.pay);
             var CardType = encodeURIComponent(this.card_type);
             var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
+            var Cardpick = encodeURIComponent(this.cardSelect);
             var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
                 "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
                 "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
-                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + submitRef;
+                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + "&" + CardpickName + "=" + Cardpick + submitRef;
             return fullURL;
         }
     }

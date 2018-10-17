@@ -203,23 +203,22 @@
                     </div>
                 </div>
                 <!-- <div class="col-sm-3"></div> -->
-                <div class="col-sm-6">
+                <div class="col-sm-6" style="margin-top: 50px;">
                         <div class="col-sm-3 card-type">
                             <label for="visa"><img src="img/visa.jpg"></label><br/>
-                            <input type="radio" id='visa' value="visa" v-model='cardpick'>
-                                                <!--  v-on:click="cardCheck" -->
+                            <input type="radio" id='visa' value="visa" v-model='cardpick' v-on:click='cardCheck("visa")'>
                         </div>
                         <div class="col-sm-3 card-type">
                             <label for="master"><img src="img/master.jpg"/></label><br/>
-                            <input type="radio" id='master' value="master" v-model='cardpick'>
+                            <input type="radio" id='master' value="master" v-model='cardpick' v-on:click='cardCheck("master")'>
                         </div>
                         <div class="col-sm-3 card-type">
                             <label for="nets"><img src="img/nets.jpg"/></label><br/>
-                            <input type="radio" id='nets' value="nets" v-model='cardpick'>
+                            <input type="radio" id='nets' value="nets" v-model='cardpick' v-on:click='cardCheck("nets")'>
                         </div>
                         <div class="col-sm-3 card-type">
                             <label for="cashcard"><img src="img/cashcard.png"/></label><br/>
-                            <input type="radio" id='cashcard' value="cashcard" v-model='cardpick'>
+                            <input type="radio" id='cashcard' value="cashcard" v-model='cardpick' v-on:click='cardCheck("cashcard")'>
                         </div>
                 </div>
             </div>
