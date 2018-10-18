@@ -35,7 +35,7 @@ var app = new Vue({
                 this.deduct = 1;
                 this.Deductstr = 'Excess change will be deducted from your earnings.';
             } else {
-                this.multiplier = parseFloat(0.2 - (0.02 * (this.random_row-1))).toFixed(2);
+                this.multiplier = (0.2 - (0.02 * (this.scheme_num-1)));
                 this.deduct = 0;
                 this.Deductstr = 'Excess change will NOT be deducted from your earnings.';
             }
