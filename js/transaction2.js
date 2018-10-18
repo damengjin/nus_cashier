@@ -23,7 +23,7 @@ var app = new Vue({
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
-        round: 100,
+        round: 50,
         current: 0,
         cor: 0,
         correct_num: 0,
