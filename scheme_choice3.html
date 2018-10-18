@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Earning Scheme for transaction Stage 3</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -41,13 +41,13 @@
             <tr v-for="(choice, index) in choices">
                 <td>{{index + 1}}</td>
                 <td>Earn <b>S$0.20</b> for each correct transaction. Excess change will be deducted from your earnings</td>
-                <td>Earn <b>S${{ (0.02 * (index+1)).toFixed(2) }}</b> for each correct transaction. Excess change will <b>NOT</b> be deducted from your earnings</td>
+                <td>Earn <b>S${{ (0.20 - (0.02 * index)).toFixed(2) }}</b> for each correct transaction. Excess change will <b>NOT</b> be deducted from your earnings</td>
                 <td>
                     <select v-model="choices[index]" @change="onSelectChange(index)">
-                        <option v-bind:value="1">Scheme 1</option>
-                        <option v-bind:value="2">Scheme 2</option>
+                        <option v-bind:value="1">Scheme A</option>
+                        <option v-bind:value="2">Scheme B</option>
                     </select>
-                    <span>Selected: {{ choices[index] }}</span>
+                    <!-- <span>Selected: {{ choices[index] }}</span> -->
                 </td>
             </tr>
 

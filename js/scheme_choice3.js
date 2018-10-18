@@ -13,13 +13,13 @@ var app = new Vue({
     methods: {
         onSelectChange (pivot) {
             let val = this.choices;
-            if (val[pivot] === 1) {
+            if (val[pivot] === 2) {
                 for (let j = 0; j <= pivot; j++) {
-                    this.choices[j] = 1;
-                }
-            } else if (val[pivot] === 2) {
-                for (let j = pivot; j < val.length; j++) {
                     this.choices[j] = 2;
+                }
+            } else if (val[pivot] === 1) {
+                for (let j = pivot; j < val.length; j++) {
+                    this.choices[j] = 1;
                 }
             }
         },
@@ -35,7 +35,7 @@ var app = new Vue({
                 this.deduct = 1;
                 this.Deductstr = 'Excess change will be deducted from your earnings.';
             } else {
-                this.multiplier = Math.round(0.02 * this.scheme_num*100)/100;
+                this.multiplier = parseFloat(0.2 - (0.02 * (this.random_row-1))).toFixed(2);
                 this.deduct = 0;
                 this.Deductstr = 'Excess change will NOT be deducted from your earnings.';
             }

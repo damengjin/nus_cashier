@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Random or Fixed Payment</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -41,8 +41,8 @@
 
             <tr v-for="(choice, index) in choices2">
                 <td>{{index + 1}}</td>
-                <td>50% chance to get <b>S$3</b>, and 50% chance to get <b>S$0</b></td>
-                <td>Earn <b>S${{ (0.30 * (index+1)).toFixed(2) }}</b> for sure</td>
+                <td>50% chance to get <b>S$3.00</b>, and 50% chance to get <b>S$0</b></td>
+                <td>Earn <b>S${{ (3.00 - (0.30 * index)).toFixed(2) }}</b> for sure</td>
                 <td>
                     <select v-model="choices2[index]" @change="onSelectChange(index)">
                         <option v-bind:value="1">Random</option>

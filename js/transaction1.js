@@ -12,6 +12,10 @@ var app = new Vue({
         pay_5: 0,
         pay_10: 0,
         pay_50: 0,
+        pay_fiftyc: 0,
+        pay_twentyc: 0,
+        pay_tenc: 0,
+        pay_fivec: 0,
         payment_input: 0,
         change_input: 0,
         num_paynotes: 0, 
@@ -255,11 +259,11 @@ var app = new Vue({
             this.currentWrong = false;
 
             //terminate with 3 wrong answers:
-            if ( this.wrong_num>= 3) {
+            if ( this.wrong_num>= 4) {
                 //(this.current - this.correct_num)
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('You have made 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'transaction2.html';
                 return;
             }
@@ -298,7 +302,16 @@ var app = new Vue({
                     this.pay_2 = Math.floor(this.pay_copy / 2);
                     this.pay_copy %= 2;
                     this.pay_1 = Math.floor(this.pay_copy / 1);
-                    this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1;
+                    this.pay_copy %= 1;
+                    this.pay_fiftyc = Math.floor(this.pay_copy / 0.5);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.5).toFixed(2));
+                    this.pay_twentyc = Math.floor(this.pay_copy / 0.2);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.2).toFixed(2));
+                    this.pay_tenc = Math.floor(this.pay_copy / 0.1);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.1).toFixed(2));
+                    console.log(this.pay_copy)
+                    this.pay_fivec = (this.pay_copy / 0.05);
+                    this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1 + this.pay_fiftyc + this.pay_twentyc + this.pay_tenc + this.pay_fivec;
             } else {
                 this.pay = this.price;
             }

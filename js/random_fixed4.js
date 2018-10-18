@@ -11,13 +11,13 @@ var app = new Vue({
     methods: {
         onSelectChange (pivot2) {
             let val = this.choices2;
-            if (val[pivot2] === 1) {
+            if (val[pivot2] === 2) {
                 for (let j = 0; j <= pivot2; j++) {
-                    this.choices2[j] = 1;
-                }
-            } else if (val[pivot2] === 2) {
-                for (let j = pivot2; j < val.length; j++) {
                     this.choices2[j] = 2;
+                }
+            } else if (val[pivot2] === 1) {
+                for (let j = pivot2; j < val.length; j++) {
+                    this.choices2[j] = 1;
                 }
             }
         },
@@ -30,7 +30,7 @@ var app = new Vue({
                 this.earn4 = Math.random() < 0.5 ? 0 : 3;
                 this.ansStr = 'Random Payment. ';
             } else {
-                this.earn4 = 0.3 * (this.random_row-1);
+                this.earn4 = parseFloat(3 - (0.3 * (this.random_row-1))).toFixed(2);
                 this.ansStr = 'Fixed Payment. ';
             }
 

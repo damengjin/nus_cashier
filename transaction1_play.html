@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Transaction Stage 1</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -18,7 +18,8 @@
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <body>
     <div id="transaction1">
         <div class="row">
@@ -56,11 +57,15 @@
                 <div class="alert text-center">
                     Payment made by customer: 
                     <div class="note-container">
-                        <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="200"/>
-                        <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="200"/>
-                        <img v-for="n in pay_5" class="small-note" src="img/five.png" width="200"/>
-                        <img v-for="n in pay_2" class="small-note" src="img/two.png" width="200"/>
-                        <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="90"/>
+                        <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="180"/>
+                        <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="180"/>
+                        <img v-for="n in pay_5" class="small-note" src="img/five.png" width="180"/>
+                        <img v-for="n in pay_2" class="small-note" src="img/two.png" width="180"/>
+                        <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="80"/>
+                        <img v-for="n in pay_fiftyc" class="small-note" src="img/fiftyc.png" width="80"/>
+                        <img v-for="n in pay_twentyc" class="small-note" src="img/twentyc.png" width="80"/>
+                        <img v-for="n in pay_tenc" class="small-note" src="img/tenc.png" width="80"/>
+                        <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="80"/>
                     </div>
                 </div>
                 <!--  -->

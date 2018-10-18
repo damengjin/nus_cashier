@@ -50,6 +50,8 @@ var app = new Vue({
         endTime: 0,
         usedTime: 0,
         num_pad_input: '',
+
+        show_num_pad: true
     },
 
     created () {
@@ -137,7 +139,7 @@ var app = new Vue({
             if (this.type_ind[this.current-1]===0){
                 this.show_num_pad = false;
                 this.show_notes = true;
-                console.log(this.show_num_pad)
+                console.log("=>", this.show_num_pad)
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
 
             } else {
