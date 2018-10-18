@@ -22,7 +22,7 @@ var app = new Vue({
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
-        round: 50,
+        round: 10,
         current: 0,
         cor: 0,
         correct_num: 0,
@@ -60,7 +60,7 @@ var app = new Vue({
         countdown: 300,
         userNote: [5, 10, 50],
 
-        currentCountdown: 10,
+        currentCountdown: 12,
 
         show_num_pad: false,
         num_pad_input: '',
@@ -77,7 +77,7 @@ var app = new Vue({
         this.resetCurrentCountdown();
         this.currentRoundTick();
         this.next(false);
-        this.tick();
+        //this.tick();
     },
 
     computed: {
@@ -119,19 +119,19 @@ var app = new Vue({
     },
 
     methods: {
-        tick () {
-            if (this.countdown < 0) {
-                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
-                localStorage.setItem("earn1", this.earn_stage);
-                alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'transaction2.html';
-                return;
-            }
-            setTimeout(() => {
-                this.countdown--;
-                this.tick();
-            }, 1000);
-        },
+        // tick () {
+        //     if (this.countdown < 0) {
+        //         this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+        //         localStorage.setItem("earn1", this.earn_stage);
+        //         alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+        //         window.location = 'transaction2.html';
+        //         return;
+        //     }
+        //     setTimeout(() => {
+        //         this.countdown--;
+        //         this.tick();
+        //     }, 1000);
+        // },
 
         currentRoundTick () {
             if (this.currentCountdown < 0) {
@@ -212,10 +212,10 @@ var app = new Vue({
                     this.currentCorrect = true;
                     this.corr = 1;
                 }
-                this.endTime = Date.now();
-                this.usedTime = (this.endTime - this.startTime ) / 1000;
-                var URL = this.URLGenerator();
-                this.sendResult(URL);
+                // this.endTime = Date.now();
+                // this.usedTime = (this.endTime - this.startTime ) / 1000;
+                // var URL = this.URLGenerator();
+                // this.sendResult(URL);
 
                 this.next();
             }
@@ -257,22 +257,23 @@ var app = new Vue({
             }
             this.currentWrong = false;
 
-            //terminate with 3 wrong answers:
-            if ( this.wrong_num>= 4) {
-                //(this.current - this.correct_num)
-                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
-                localStorage.setItem("earn1", this.earn_stage);
-                alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'transaction2.html';
-                return;
-            }
-            //finish all the 50 questions
+            // //terminate with 3 wrong answers:
+            // if ( this.wrong_num>= 4) {
+            //     //(this.current - this.correct_num)
+            //     this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+            //     localStorage.setItem("earn1", this.earn_stage);
+            //     alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+            //     window.location = 'transaction2.html';
+            //     return;
+            // }
+
+            //finish all the 10 questions
             if (this.current === this.round) {
-                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
-                localStorage.setItem("earn1", this.earn_stage);
-                alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+                // localStorage.setItem("earn1", this.earn_stage);
+                alert('You have finished all the trial questions. Please do NOT press any button and wait for instructions......');
                 //this.nextpage();
-                window.location = 'transaction2.html';
+                window.location = 'transaction1_play.html';
                 return;
             }
 
@@ -354,17 +355,17 @@ var app = new Vue({
             }
         },
 
-        sendResult (fullURL) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-              if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("demo").innerHTML =
-                this.responseText;
-              }
-            };
-            xhttp.open("GET", fullURL, true);
-            xhttp.send();
-          },
+        // sendResult (fullURL) {
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = function() {
+        //       if (this.readyState == 4 && this.status == 200) {
+        //         document.getElementById("demo").innerHTML =
+        //         this.responseText;
+        //       }
+        //     };
+        //     xhttp.open("GET", fullURL, true);
+        //     xhttp.send();
+        //   },
 
         onSubmit () {
             // calculate
@@ -400,53 +401,14 @@ var app = new Vue({
                 this.prevExcess = excess;
                 this.store.excess.push(excess);
             }
-            this.endTime = Date.now();
-            this.usedTime = (this.endTime - this.startTime ) / 1000;
-            var URL = this.URLGenerator();
-            this.sendResult(URL);
+            // this.endTime = Date.now();
+            // this.usedTime = (this.endTime - this.startTime ) / 1000;
+            // var URL = this.URLGenerator();
+            // this.sendResult(URL);
 
             this.next();
         },
 
-        URLGenerator () {
-            var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSeVKeQUfIWjvCJMfb0M28l35efCjbkhVYP7nYDqrD6ZCTO9Zw/formResponse?";
-            var submitRef = "&submit=Submit";
-            var idName = "entry.1582178970";
-            var questionName = "entry.1959376514";
-            var seqName = "entry.1889444857";
-            var correctName = "entry.1308898835";
-            var timeStartName = "entry.392681116";
-            var timeEndName = "entry.454503067";
-            var timeUsedName = "entry.1296130196";
-            var changeName = "entry.1938361813";
-            var changeCollectedName = "entry.2002870282";
-            var shortName = "entry.879414864";
-            var payInputName = "entry.1880502092";
-            var paytrueName = "entry.291513397";
-            var CardTypeName = "entry.1752805968";
-            var TypeidName = "entry.272432963";
-            var CardpickName = "entry.1673565638";
-            var id = encodeURIComponent(this.userid);
-            var question = encodeURIComponent(this.current);
-            var seq = encodeURIComponent(this.seqSelect);
-            var correct = encodeURIComponent(this.corr);
-            var timeStart = encodeURIComponent(this.startTime);
-            var timeEnd = encodeURIComponent(this.endTime);
-            var timeUsed = encodeURIComponent(this.usedTime);
-            var change = encodeURIComponent(this.changetrue);
-            var changeCollected = encodeURIComponent(this.result);
-            var short = encodeURIComponent(this.short);
-            var payInput = encodeURIComponent(this.cardPay);
-            var paytrue = encodeURIComponent(this.pay);
-            var CardType = encodeURIComponent(this.card_type);
-            var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
-            var Cardpick = encodeURIComponent(this.cardSelect);
-            var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
-                "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
-                "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
-                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + "&" + CardpickName + "=" + Cardpick + submitRef;
-            return fullURL;
-        }
     }
 
   })

@@ -62,7 +62,7 @@ var app = new Vue({
         countdown: 60,
         userNote: [5, 10, 50],
 
-        currentCountdown: 10,
+        currentCountdown: 12,
 
         show_num_pad: false,
         num_pad_input: '',

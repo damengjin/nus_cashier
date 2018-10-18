@@ -152,8 +152,8 @@ var app = new Vue({
                 } else {
                     this.corr = 1;
                 }
-                alert('Real Test is about to begin!! Wait for instructions......');
-                window.location.href='transaction1_play.html';
+                alert('There is going to be a Trial!! Wait for instructions......');
+                window.location.href='countdown_trail.html';
             }
         },
 
