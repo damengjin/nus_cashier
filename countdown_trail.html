@@ -4,11 +4,9 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Example</title>
+  <title>Trial</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
-
-  <link rel="stylesheet" href="css/styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <!-- Latest compiled and minified CSS -->
@@ -17,81 +15,98 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<body>
-<div id="example">
-
-    <div class="row text-center">
-        <div class="col-sm-12"><b>Example{{current}}</b></div>
-    </div><br/>
-    <div class="row text-center">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3">
-            <div class="alert alert-info">
-                To collect: <b>${{price}}</b>
+    <body>
+    <div id="countdown_trail">
+        <div class="row">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="300" v-bind:style="{ width: countdown/3 + '%' }">
+                    {{formatTime}}
+                </div>
             </div>
         </div>
-        <div class="col-sm-3">
-            <div class="alert alert-info">
-                Last excess change: <b>${{prevExcess}}</b>
+        <div class="row text-center">
+            <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+        </div><br/>
+        <div class="row text-center">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3">
+                <div class="alert alert-danger">
+                    Time: <b>{{currentFormatTime}}</b>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="alert alert-info">
+                    To collect: <b>${{price.toFixed(2)}}</b>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="alert alert-info">
+                    Last excess change: <b>${{prevExcess.toFixed(2)}}</b>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-1"></div>
+        <div class="row">
+            <div class="col-sm-1"></div>
             <div class="col-sm-8" v-if="show_num_pad">
                 <div class="alert text-center">
                     Payment made by customer: 
                     <div class="note-container">
-                        <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="200"/>
-                        <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="200"/>
-                        <img v-for="n in pay_5" class="small-note" src="img/five.png" width="200"/>
-                        <img v-for="n in pay_2" class="small-note" src="img/two.png" width="200"/>
-                        <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="90"/>
+                        <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="180"/>
+                        <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="180"/>
+                        <img v-for="n in pay_5" class="small-note" src="img/five.png" width="180"/>
+                        <img v-for="n in pay_2" class="small-note" src="img/two.png" width="180"/>
+                        <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="80"/>
+                        <img v-for="n in pay_fiftyc" class="small-note" src="img/fiftyc.png" width="80"/>
+                        <img v-for="n in pay_twentyc" class="small-note" src="img/twentyc.png" width="80"/>
+                        <img v-for="n in pay_tenc" class="small-note" src="img/tenc.png" width="80"/>
+                        <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="80"/>
                     </div>
                 </div>
                 <!--  -->
             </div>
-        <div class="col-sm-1"></div>
-    </div>
-
-    <div v-if="show_num_pad" class="num-pad">
-        <div class="row text-center">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-                <div class="alert alert-warning">
-                    Key in the payment paid by customer: <b>S${{num_pad_input}}</b>
-                </div><br/>
-            </div>
+            <div class="col-sm-1"></div>
         </div>
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="7" v-on:click="pad_input('7')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="8" v-on:click="pad_input('8')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="9" v-on:click="pad_input('9')" />
-        <br />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="4" v-on:click="pad_input('4')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="5" v-on:click="pad_input('5')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="6" v-on:click="pad_input('6')" />
-        <br />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="1" v-on:click="pad_input('1')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="2" v-on:click="pad_input('2')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="3" v-on:click="pad_input('3')" />
-        <br />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="0" v-on:click="pad_input('0')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="." v-on:click="pad_input('.')" />
-        <input class="btn btn-warning btn-circle btn-lg" type="button" value="<" v-on:click="pad_backspace()" />
-        <br />
-        <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
-    </div>
 
+        <div v-if="show_num_pad" class="num-pad">
+            <div class="row text-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="alert alert-warning">
+                        Key in the payment paid by customer: <b>S${{num_pad_input}}</b>
+                    </div><br/>
+                </div>
+            </div>
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="7" v-on:click="pad_input('7')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="8" v-on:click="pad_input('8')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="9" v-on:click="pad_input('9')" />
+            <br />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="4" v-on:click="pad_input('4')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="5" v-on:click="pad_input('5')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="6" v-on:click="pad_input('6')" />
+            <br />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="1" v-on:click="pad_input('1')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="2" v-on:click="pad_input('2')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="3" v-on:click="pad_input('3')" />
+            <br />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="0" v-on:click="pad_input('0')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="." v-on:click="pad_input('.')" />
+            <input class="btn btn-warning btn-circle btn-lg" type="button" value="<" v-on:click="pad_backspace()" />
+            <br />
+            <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
+        </div>
 
         <div v-if="show_notes">
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6">
                     <div class="alert alert-warning">
-                        Change: <b>${{changebypay}}</b>
+                        Change: <b>${{changebypay.toFixed(2)}}</b>
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
@@ -226,28 +241,27 @@
             
 
             <div class="num-pad">
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="7" v-on:click="pad_input('7')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="8" v-on:click="pad_input('8')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="9" v-on:click="pad_input('9')" />
-                    <br />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="4" v-on:click="pad_input('4')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="5" v-on:click="pad_input('5')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="6" v-on:click="pad_input('6')" />
-                    <br />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="1" v-on:click="pad_input('1')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="2" v-on:click="pad_input('2')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="3" v-on:click="pad_input('3')" />
-                    <br />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="0" v-on:click="pad_input('0')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="." v-on:click="pad_input('.')" />
-                    <input class="btn btn-warning btn-circle btn-lg" type="button" value="<" v-on:click="pad_backspace()" />
-                    <br />
-                    <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="7" v-on:click="pad_input('7')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="8" v-on:click="pad_input('8')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="9" v-on:click="pad_input('9')" />
+                <br />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="4" v-on:click="pad_input('4')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="5" v-on:click="pad_input('5')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="6" v-on:click="pad_input('6')" />
+                <br />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="1" v-on:click="pad_input('1')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="2" v-on:click="pad_input('2')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="3" v-on:click="pad_input('3')" />
+                <br />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="0" v-on:click="pad_input('0')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="." v-on:click="pad_input('.')" />
+                <input class="btn btn-warning btn-circle btn-lg" type="button" value="<" v-on:click="pad_backspace()" />
+                <br />
+                <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
             </div>
         </div>
 
-</div>
-  <script src="js/example.js"></script>
-</body>
-
+    </div>
+    <script src="js/countdown_trail.js"></script>
+    </body>
 </html>
