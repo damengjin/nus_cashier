@@ -255,7 +255,7 @@ var app = new Vue({
                 this.corr = 1;
             } else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
-                alert('You will have excess S$' + excess + ' deducted from your warning!!');
+                alert('You will have excess S$' + excess + ' deducted from your earning!!');
                 this.prevExcess = excess;
             }
             alert('Wait for instructions to next example!');
