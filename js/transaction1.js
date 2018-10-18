@@ -145,7 +145,7 @@ var app = new Vue({
         },
 
         resetCurrentCountdown () {
-            this.currentCountdown = 10;
+            this.currentCountdown = 12;
         },
 
         // nextpage() {
