@@ -195,7 +195,7 @@ var app = new Vue({
         pad_submit () {
             if (this.type_ind[this.current-1]===0){
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-                if (this.payment_input == 'NaN') {
+                if (this.payment_input === 'NaN') {
                     alert('You did NOT key in any number!');
                     return;
                 } else {
