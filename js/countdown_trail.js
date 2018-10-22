@@ -194,10 +194,14 @@ var app = new Vue({
 
         pad_submit () {
             if (this.type_ind[this.current-1]===0){
-                this.show_num_pad = false;
-                this.show_notes = true;
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-
+                if (this.payment_input === 'NaN') {
+                    alert('You did NOT key in any number!');
+                    return;
+                } else {
+                    this.show_num_pad = false;
+                    this.show_notes = true;                    
+                }
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 this.cardPay.push("-" + this.payment_input);

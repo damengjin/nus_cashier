@@ -124,8 +124,10 @@ var app = new Vue({
             if (this.countdown < 0) {
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'transaction2.html';
+                alert('Time is up! Stage 1 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
                 return;
             }
             setTimeout(() => {
@@ -195,10 +197,14 @@ var app = new Vue({
 
         pad_submit () {
             if (this.type_ind[this.current-1]===0){
-                this.show_num_pad = false;
-                this.show_notes = true;
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-
+                if (this.payment_input === 'NaN') {
+                    alert('You did NOT key in any number!');
+                    return;
+                } else {
+                    this.show_num_pad = false;
+                    this.show_notes = true;                    
+                }
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 this.cardPay.push("-" + this.payment_input);
@@ -263,18 +269,19 @@ var app = new Vue({
                 //(this.current - this.correct_num)
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'transaction2.html';
-                return;
+                alert('You have made more than 3 mistakes! Stage 1 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
             }
             //finish all the 50 questions
             if (this.current === this.round) {
                 this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 localStorage.setItem("earn1", this.earn_stage);
-                alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                //this.nextpage();
-                window.location = 'transaction2.html';
-                return;
+                alert('You have finished all the 50 transactions! Stage 1 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
             }
 
             // clear

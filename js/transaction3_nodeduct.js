@@ -123,9 +123,11 @@ var app = new Vue({
             if (this.countdown < 0) {
                 this.earn_stage = Math.round((this.multiplier * this.correct_num) * 100)/100;
                 localStorage.setItem("earn3", this.earn_stage);
-                alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'random_fixed4.html';
-                return;
+                alert('Times Up! Stage 3 ends.');
+                window.location = 'Wait_page3.html';
+                // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'random_fixed4.html';
+                // return;
             }
             setTimeout(() => {
                 this.countdown--;
@@ -189,10 +191,14 @@ var app = new Vue({
 
         pad_submit () {
             if (this.type_ind[this.current-1]===0){
-                this.show_num_pad = false;
-                this.show_notes = true;
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-
+                if (this.payment_input === 'NaN') {
+                    alert('You did NOT key in any number!');
+                    return;
+                } else {
+                    this.show_num_pad = false;
+                    this.show_notes = true;                    
+                }
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 this.cardPay.push("-" + this.payment_input);
@@ -256,17 +262,21 @@ var app = new Vue({
             if (this.wrong_num >= 4) {
                 this.earn_stage = Math.round((this.multiplier * this.correct_num) * 100) / 100;
                 localStorage.setItem("earn3", this.earn_stage);
-                alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'random_fixed4.html';
-                return;
+                alert('You have made more than 3 mistakes! Stage 3 ends.');
+                window.location = 'Wait_page3.html';
+                // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'random_fixed4.html';
+                // return;
             }
             //finish all the 100 questions
             if (this.current === this.round) {
                 this.earn_stage = Math.round((this.multiplier * this.correct_num) * 100)/100;
                 localStorage.setItem("earn3", this.earn_stage);
-                alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                window.location = 'random_fixed4.html';
-                return;
+                alert('You have finished all the 20 transactions! Stage 3 ends.');
+                window.location = 'Wait_page3.html';
+                // alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'random_fixed4.html';
+                // return;
             }
 
             // clear

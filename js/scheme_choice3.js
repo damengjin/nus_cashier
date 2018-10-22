@@ -42,11 +42,10 @@ var app = new Vue({
 
             localStorage.setItem('multiplier', this.multiplier)
             localStorage.setItem('deduction', this.deduct)
+            localStorage.setItem('scheme_num', this.scheme_num)
+            localStorage.setItem('Deductstr', this.Deductstr)
 
-            alert('The computer has randomly chosen row' + this.scheme_num +'. Based on your selection, you will earn S$' + this.multiplier + ' for every correct transaction in this stage. ' + this.Deductstr + ' Please do NOT press any button and wait for instructions......');
-            if (this.deduct == 0) {window.location = 'transaction3_nodeduct.html';}
-            else {window.location = 'transaction3_deduct.html'; }
-            return;
+            window.location = 'Wait_page_scheme.html'; 
         }
 
     }
