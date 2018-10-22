@@ -1,11 +1,13 @@
 var app = new Vue({
     el: '#random_fixed',
     data: {
+      userid: localStorage.getItem('id'),
       choices2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       changedIndex: -1,
       random_row: 0,
       earn4: 0,
-      ansStr: ''
+      ansStr: '',
+      switchPivot: 10,
     },
 
     methods: {
@@ -23,6 +25,7 @@ var app = new Vue({
         },
 
         onSubmit () {
+            this.getPivot();
             // generate random choice from 1 ~ 10
             this.random_row = Math.floor(Math.random() * 10) + 1;
 
@@ -37,10 +40,49 @@ var app = new Vue({
             localStorage.setItem("earn4", this.earn4);
             localStorage.setItem("random_row", this.random_row);
             localStorage.setItem("ansStr", this.ansStr);
-
-            
+            var URL = this.URLGenerator();
+            this.sendResult(URL);
             window.location = 'Wait_page4.html';
             return;
+        },
+
+        getPivot () {
+            if (this.choices2[0] === 1) {
+                this.switchPivot2 = 0;
+            } else {
+                for(let k = 0; k < 10; k++) {
+                    // console.log(this.choices[k+1])
+                    if (this.choices2[k+1] != this.choices2[k]) {
+                        this.switchPivot2 = k+1;
+                        return;
+                    } 
+                } 
+            }
+        },
+
+        sendResult (fullURL) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("demo").innerHTML =
+                this.responseText;
+              }
+            };
+            xhttp.open("GET", fullURL, true);
+            xhttp.send();
+          },
+
+        URLGenerator () {
+            var url = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScPs6i1E_XJM1Ee6weNT3uQZgdOb8ZW2He5DywO6G3wvyFEFA/formResponse?";
+            var submitRef = "&submit=Submit";
+            var idName = "entry.1582178970";
+            var rfChoicelistName = "entry.1389418379";
+            var rfSwitchPivotName = "entry.489169653";
+            var id = encodeURIComponent(this.userid);
+            var rfChoicelist = encodeURIComponent(this.choices2);
+            var rfSwitchPivot = encodeURIComponent(this.switchPivot2);
+            var fullURL = url + idName + "=" + id + "&" + rfChoicelistName + "=" + rfChoicelist + "&" + rfSwitchPivotName + "=" + rfSwitchPivot  + submitRef;
+            return fullURL;
         }
     }
 
