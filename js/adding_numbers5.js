@@ -14,6 +14,8 @@ var app = new Vue({
       msg: [],
       countdown: 60,
       startTime: 0,
+      startTimeStr: '',
+      endTimeStr: '',
       endTime: 0,
       usedTime: 0,
       question: []
@@ -66,6 +68,7 @@ var app = new Vue({
         get_question () {
             // clear
             this.startTime = Date.now();
+            this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
             this.clear();
 
             // new numbers to add up
@@ -186,6 +189,7 @@ var app = new Vue({
             // calculate
             this.ans = parseInt(this.msg);
             this.endTime = Date.now();
+            this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
             this.usedTime = (this.endTime - this.startTime) / 1000;
 
             // compare
@@ -239,8 +243,8 @@ var app = new Vue({
             var id = encodeURIComponent(this.userid);
             var question = encodeURIComponent(this.current);
             var correct = encodeURIComponent(this.corr);
-            var timeStart = encodeURIComponent(this.startTime);
-            var timeEnd = encodeURIComponent(this.endTime);
+            var timeStart = encodeURIComponent(this.startTimeStr);
+            var timeEnd = encodeURIComponent(this.endTimeStr);
             var timeUsed = encodeURIComponent(this.usedTime);
             var correctAnswer = encodeURIComponent(this.get_sum());
             var answer = encodeURIComponent(this.ans);

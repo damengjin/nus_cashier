@@ -56,7 +56,9 @@ var app = new Vue({
         cardPay: [],
 
         startTime: 0,
+        startTimeStr: '',
         endTime: 0,
+        endTimeStr: '',
         usedTime: 0,
 
         countdown: 60,
@@ -221,6 +223,7 @@ var app = new Vue({
                     this.corr = 1;
                 }
                 this.endTime = Date.now();
+                this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
                 this.usedTime = (this.endTime - this.startTime ) / 1000;
                 var URL = this.URLGenerator();
                 this.sendResult(URL);
@@ -254,6 +257,7 @@ var app = new Vue({
         next () {
             // time start
             this.startTime = Date.now();
+            this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
 
             if (this.currentCorrect) {
                 this.correct_num++;
@@ -432,6 +436,7 @@ var app = new Vue({
                 this.store.excess.push(excess);
             }
             this.endTime = Date.now();
+            this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
             this.usedTime = (this.endTime - this.startTime ) / 1000;
             var URL = this.URLGenerator();
             this.sendResult(URL);
@@ -462,8 +467,8 @@ var app = new Vue({
             var question = encodeURIComponent(this.current);
             var seq = encodeURIComponent(this.seqSelect);
             var correct = encodeURIComponent(this.corr);
-            var timeStart = encodeURIComponent(this.startTime);
-            var timeEnd = encodeURIComponent(this.endTime);
+            var timeStart = encodeURIComponent(this.startTimeStr);
+            var timeEnd = encodeURIComponent(this.endTimeStr);
             var timeUsed = encodeURIComponent(this.usedTime);
             var change = encodeURIComponent(this.changetrue);
             var changeCollected = encodeURIComponent(this.result);
