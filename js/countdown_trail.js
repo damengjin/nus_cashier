@@ -275,9 +275,9 @@ var app = new Vue({
             if (this.current === this.round) {
                 // this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 // localStorage.setItem("earn1", this.earn_stage);
-                alert('You have finished all the trial questions. Please do NOT press any button and wait for instructions......');
+                //alert('You have finished all the trial questions. Please do NOT press any button and wait for instructions......');
                 //this.nextpage();
-                window.location = 'transaction2.html';
+                window.location = 'Wait_page_trial.html';
                 return;
             }
 
