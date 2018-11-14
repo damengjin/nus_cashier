@@ -9,8 +9,8 @@ earn_play = Math.round((this.earn_trans1 + this.earn_trans2 + this.earn_trans3 +
 show_up = 4.00;
 total_fee = Math.round((earn_play + show_up)*100)/100;
 
-document.getElementById("stage1").innerHTML = "The Stage 1 Cashier Earning is: S$<b>" + earn_trans1 + "</b>";
-document.getElementById("stage2").innerHTML = "The Stage 2 Cashier Earning is: S$<b>" + earn_trans2 + "</b>";
+document.getElementById("stage2").innerHTML = "The Stage 1 Cashier Earning is: S$<b>" + earn_trans2 + "</b>";
+document.getElementById("stage1").innerHTML = "The Stage 2 Cashier Earning is: S$<b>" + earn_trans1 + "</b>";
 document.getElementById("stage3").innerHTML = "The Stage 3 Cashier Earning is: S$<b>" + earn_trans3 + "</b>";
 document.getElementById("stage4").innerHTML = "The Stage 4 Random or Fixed Payment Earning is: S$<b>" + earn_trans4 + "</b>";
 document.getElementById("stage5").innerHTML = "The Stage 5 Number Addition earning is: S$<b>" + earn_trans5 + "</b>";
