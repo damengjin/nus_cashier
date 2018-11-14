@@ -277,7 +277,7 @@ var app = new Vue({
                 // localStorage.setItem("earn1", this.earn_stage);
                 alert('You have finished all the trial questions. Please do NOT press any button and wait for instructions......');
                 //this.nextpage();
-                window.location = 'transaction1_play.html';
+                window.location = 'transaction2.html';
                 return;
             }
 
