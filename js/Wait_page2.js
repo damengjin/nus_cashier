@@ -7,5 +7,5 @@ document.getElementById("stage2").innerHTML = "The Stage 1 Cashier Earning is: S
 
 
 function onSubmit () {
-  window.location = 'transaction1_play.html';
+  window.location = 'example.html';
 }

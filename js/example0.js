@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#example',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [0],
+        type_ind: [0, 1],
 
         price: 0,
         pay: 0,
@@ -87,9 +87,8 @@ var app = new Vue({
     methods: {
         questionBase () {
             this.questions = [
-                    [86.65,90]
-                    // [86.65,90],
-                    // [86.65,0],
+                    [86.65,90],
+                    [86.65,0],
             ];
         },
 
@@ -152,8 +151,8 @@ var app = new Vue({
                 } else {
                     this.corr = 1;
                 }
-                alert('Now be prepared to move on to Stage 2! Wait for instructions......');
-                window.location.href='transaction1_play.html';
+                alert('There is going to be a Trial!! Wait for instructions......');
+                window.location.href='countdown_trail0.html';
             }
         },
 
@@ -253,15 +252,14 @@ var app = new Vue({
                 return;
             } else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
                 this.corr = 1;
-            } else {
-                excess = Math.round((this.result - this.changetrue)*100)/100;
-                alert('You will have excess S$' + excess + ' deducted from your earning!!');
-                this.prevExcess = excess;
             }
-            alert('Now be prepared to move on to Stage 2! Wait for instructions......');
-            window.location.href='transaction1_play.html';
-            //alert('Wait for instructions to next example!');
-            //this.next();
+            // } else {
+            //     excess = Math.round((this.result - this.changetrue)*100)/100;
+            //     alert('You will have excess S$' + excess + ' deducted from your earning!!');
+            //     this.prevExcess = excess;
+            // }
+            alert('Wait for instructions to next example!');
+            this.next();
         },
 
     }
