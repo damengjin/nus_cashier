@@ -6,6 +6,11 @@ earn_trans3 = parseFloat(parseFloat(localStorage.getItem('earn3')).toFixed(2));
 earn_trans4 = parseFloat(parseFloat(localStorage.getItem('earn4')).toFixed(2));
 earn_trans5 = parseFloat(parseFloat(localStorage.getItem('earn5')).toFixed(2));
 earn_play = Math.round((this.earn_trans1 + this.earn_trans2 + this.earn_trans3 + this.earn_trans4 + this.earn_trans5)*100)/100;
+if (earn_play < 0) {
+  earn_play = 0;
+} else {
+  earn_play = earn_play;
+}
 show_up = 4.00;
 total_fee = Math.round((earn_play + show_up)*100)/100;
 

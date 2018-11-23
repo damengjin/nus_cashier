@@ -24,13 +24,14 @@ var app = new Vue({
                     this.choices[j] = 1;
                 }
             }
+            console.log(this.userid)
         },
 
         onSubmit () {
             this.getPivot();
             // generate random choice from 1 ~ 10
             this.scheme_num = Math.floor(Math.random() * 10) + 1;
-
+            console.log(this.userid)
             // return the payoff
             if (this.choices[this.scheme_num] === 1) {
                 this.multiplier = 0.2;
@@ -81,7 +82,7 @@ var app = new Vue({
         URLGenerator () {
             var url = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSejSI8T2ZUu78kiVF28lANsiyXV8TQpgmnZHmkIfcyW4SGwWw/formResponse?";
             var submitRef = "&submit=Submit";
-            var idName = "entry.1582178970";
+            var idName = "entry.1519623335";
             var schemeChoicelistName = "entry.1698845711";
             var schemeSwitchPivotName = "entry.1396377240";
             var id = encodeURIComponent(this.userid);

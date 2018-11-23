@@ -75,7 +75,7 @@ var app = new Vue({
         URLGenerator () {
             var url = "https://docs.google.com/forms/u/2/d/e/1FAIpQLScPs6i1E_XJM1Ee6weNT3uQZgdOb8ZW2He5DywO6G3wvyFEFA/formResponse?";
             var submitRef = "&submit=Submit";
-            var idName = "entry.1582178970";
+            var idName = "entry.2080862985";
             var rfChoicelistName = "entry.1389418379";
             var rfSwitchPivotName = "entry.489169653";
             var id = encodeURIComponent(this.userid);
