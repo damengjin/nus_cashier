@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>Transaction Stage 1</title>
+  <title>Treatment_exercise</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -21,10 +21,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <body>
-    <div id="transaction1">
+    <div id="treatment_exercise">
         <div class="row">
             <div class="progress">
-                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="300" v-bind:style="{ width: countdown/3 + '%' }">
+                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="180" v-bind:style="{ width: countdown/1.8 + '%' }">
                     {{formatTime}}
                 </div>
             </div>
@@ -34,26 +34,29 @@
         </div><br/>
         <div class="row text-center">
             <div class="col-sm-2"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="alert alert-danger">
                     Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="alert alert-info">
-                    To collect: <b>${{price.toFixed(2)}}</b>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="alert alert-info">
-                    Last excess change: <b>${{prevExcess.toFixed(2)}}</b>
+                    Last excess change: <b>S$ {{prevExcess.toFixed(2)}}</b>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-1"></div>
-            <div class="col-sm-8" v-if="show_num_pad">
+            <div class="col-sm-12" v-if="show_num_pad">
+                <div class="row text-center">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <div class="alert alert-info">
+                            To collect: <b>S$ {{price.toFixed(2)}}</b>
+                        </div>
+                    </div>
+                </div>
                 <div class="alert text-center">
                     Payment made by customer: 
                     <div class="note-container">
@@ -75,10 +78,10 @@
 
         <div v-if="show_num_pad" class="num-pad">
             <div class="row text-center">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
-                        Key in the payment paid by customer: <b>S${{num_pad_input}}</b>
+                        Key in the payment paid by customer: <b>S$ {{num_pad_input}}</b>
                     </div><br/>
                 </div>
             </div>
@@ -102,11 +105,11 @@
         </div>
 
         <div v-if="show_notes">
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
+            <div class="row text-center">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
-                        Change: <b>${{changebypay.toFixed(2)}}</b>
+                        Change: <b>S$ {{changebypay.toFixed(2)}}</b>
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
@@ -198,6 +201,14 @@
 
         <div v-if="show_card">
             <div class="row text-center">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="alert alert-info">
+                        To collect: <b>S$ {{price.toFixed(2)}}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-3">
                     <div class="alert alert-success">
@@ -230,10 +241,10 @@
 
 
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
-                        Key in the amount to collect: <b>S${{num_pad_input}}</b>
+                        Key in the amount to collect: <b>S$ {{num_pad_input}}</b>
                     </div>
                 </div>
                 <div class="col-sm-2"></div>
@@ -262,6 +273,6 @@
         </div>
 
     </div>
-    <script src="js/transaction1.js"></script>
+    <script src="js/treatment_exercise.js"></script>
     </body>
 </html>

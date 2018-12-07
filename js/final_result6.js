@@ -6,13 +6,13 @@ earn_trans3 = parseFloat(parseFloat(localStorage.getItem('earn3')).toFixed(2));
 earn_trans4 = parseFloat(parseFloat(localStorage.getItem('earn4')).toFixed(2));
 earn_trans5 = parseFloat(parseFloat(localStorage.getItem('earn5')).toFixed(2));
 earn_play = Math.round((this.earn_trans1 + this.earn_trans2 + this.earn_trans3 + this.earn_trans4 + this.earn_trans5)*100)/100;
-if (earn_play < 0) {
-  earn_play = 0;
+if (earn_play < -6) {
+  earn_play_new = -6;
 } else {
-  earn_play = earn_play;
+  earn_play_new = earn_play;
 }
-show_up = 4.00;
-total_fee = Math.round((earn_play + show_up)*100)/100;
+show_up = 8.00;
+total_fee = Math.round((earn_play_new + show_up)*100)/100;
 
 document.getElementById("stage2").innerHTML = "The Stage 1 Cashier Earning is: S$<b>" + earn_trans2 + "</b>";
 document.getElementById("stage1").innerHTML = "The Stage 2 Cashier Earning is: S$<b>" + earn_trans1 + "</b>";

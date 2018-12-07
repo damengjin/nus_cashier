@@ -28,7 +28,7 @@ var app = new Vue({
         cor: 0,
         correct_num: 0,
         wrong_num: 0,
-        earn_stage: 0,
+        exe_score_control: 0,
         result: 0,
         short: 0,
         questions: [],
@@ -123,9 +123,9 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('Time is up! Stage 1 ends.');
+                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100)/100;
+                localStorage.setItem("exe_score_control", this.exe_score_control);
+                alert('Time is up! The exercise ends.');
                 window.location = 'Wait_page_trial.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
@@ -271,8 +271,8 @@ var app = new Vue({
 
             //terminate with 3 wrong answers:
             if (this.wrong_num >= 4) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100) / 100;
-                localStorage.setItem("earn2", this.earn_stage);
+                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100) / 100;
+                localStorage.setItem("exe_score_control", this.exe_score_control);
                 alert('You have made more than 3 mistakes! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
@@ -281,8 +281,8 @@ var app = new Vue({
             }
             //finish all the 100 questions
             if (this.current === this.round) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
+                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100)/100;
+                localStorage.setItem("exe_score_control", this.exe_score_control);
                 alert('You have finished all the 50 transactions! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
                 // alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');

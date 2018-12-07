@@ -1,7 +1,7 @@
 userid = localStorage.getItem("id");
+exe_control_score = parseFloat(parseFloat(localStorage.getItem('exe_score_control')).toFixed(2));
 
-//document.getElementById("stage1").innerHTML = "The Stage 1 Cashier Earning is: S$<b>" + earn_trans1 + "</b>";
-
+document.getElementById("exe_score_control").innerHTML = "The Exercise you would have earned: S$<b>" + exe_control_score + "</b>";
 function onSubmit () {
   window.location = 'transaction2.html';
 }
