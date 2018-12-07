@@ -60,7 +60,7 @@ var app = new Vue({
         endTimeStr: '',
         usedTime: 0,
 
-        countdown: 300,
+        countdown: 900,
         userNote: [5, 10, 50],
 
         currentCountdown: 12,

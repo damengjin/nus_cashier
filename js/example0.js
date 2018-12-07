@@ -152,7 +152,7 @@ var app = new Vue({
                     this.corr = 1;
                 }
                 alert('There is going to be a Trial!! Wait for instructions......');
-                window.location.href='countdown_trail0.html';
+                window.location.href='control_exercise.html';
             }
         },
 

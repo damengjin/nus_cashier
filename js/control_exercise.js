@@ -1,5 +1,5 @@
 var app = new Vue({
-    el: '#transaction2',
+    el: '#control_exercise',
     data: {
         userid: localStorage.getItem('id'),
         type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
@@ -60,10 +60,11 @@ var app = new Vue({
         endTimeStr: '',
         usedTime: 0,
 
-        countdown: 900,
+        countdown: 180,
         userNote: [5, 10, 50],
 
-        currentCountdown: 12,
+        currentCountdown_cash: 12,
+        currentCountdown_card: 8,
 
         show_num_pad: false,
         num_pad_input: '',
@@ -103,7 +104,7 @@ var app = new Vue({
                 second = "0" + this.currentCountdown % 60;
             }
             else {second = this.currentCountdown % 60; }
-        return Math.floor(this.currentCountdown / 60) + ":" + second;
+            return Math.floor(this.currentCountdown / 60) + ":" + second;
         },
 
         card_type_img () {
@@ -125,7 +126,7 @@ var app = new Vue({
                 this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
                 localStorage.setItem("earn2", this.earn_stage);
                 alert('Time is up! Stage 1 ends.');
-                window.location = 'Wait_page2.html';
+                window.location = 'Wait_page_trial.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
                 // return;
@@ -142,12 +143,19 @@ var app = new Vue({
             }
             setTimeout(() => {
                 this.currentCountdown--;
+                console.log(this.currentCountdown)
                 this.currentRoundTick();
             }, 1000);
         },
 
         resetCurrentCountdown () {
-            this.currentCountdown = 12;
+            // this.currentCountdown = 12;
+            if (this.type_ind[this.current] === 0){
+                this.currentCountdown = this.currentCountdown_cash;
+            }
+            else {
+                this.currentCountdown = this.currentCountdown_card;
+            }
         },
 
         add (val) {
@@ -217,8 +225,8 @@ var app = new Vue({
                 this.endTime = Date.now();
                 this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
                 this.usedTime = (this.endTime - this.startTime ) / 1000;
-                var URL = this.URLGenerator();
-                this.sendResult(URL);
+                // var URL = this.URLGenerator();
+                // this.sendResult(URL);
 
                 this.next();
             }
@@ -442,56 +450,54 @@ var app = new Vue({
                 this.prevExcess = excess;
                 this.currentWrong = true;
             }
-            this.endTime = Date.now();
-            this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
-            this.usedTime = (this.endTime - this.startTime ) / 1000;
-            var URL = this.URLGenerator();
-            this.sendResult(URL);
-
-
+            // this.endTime = Date.now();
+            // this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
+            // this.usedTime = (this.endTime - this.startTime ) / 1000;
+            // var URL = this.URLGenerator();
+            // this.sendResult(URL);
 
             this.next();
         },
 
-        URLGenerator () {
-            var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSe0dkNfu3XOnJEJd_RNgLK6dYxI8ufEuqg7sYvM_fY5v4yyjg/formResponse?";
-            var submitRef = "&submit=Submit";
-            var idName = "entry.1582178970";
-            var questionName = "entry.1959376514";
-            var seqName = "entry.1889444857";
-            var correctName = "entry.1308898835";
-            var timeStartName = "entry.392681116";
-            var timeEndName = "entry.454503067";
-            var timeUsedName = "entry.1296130196";
-            var changeName = "entry.1938361813";
-            var changeCollectedName = "entry.2002870282";
-            var shortName = "entry.879414864";
-            var payInputName = "entry.1653212703";
-            var paytrueName = "entry.844490896";
-            var CardTypeName = "entry.1632364073";
-            var TypeidName = "entry.1344063532";
-            var CardpickName = "entry.1296160618";
-            var id = encodeURIComponent(this.userid);
-            var question = encodeURIComponent(this.current);
-            var seq = encodeURIComponent(this.seqSelect);
-            var correct = encodeURIComponent(this.corr);
-            var timeStart = encodeURIComponent(this.startTimeStr);
-            var timeEnd = encodeURIComponent(this.endTimeStr);
-            var timeUsed = encodeURIComponent(this.usedTime);
-            var change = encodeURIComponent(this.changetrue);
-            var changeCollected = encodeURIComponent(this.result);
-            var short = encodeURIComponent(this.short);
-            var payInput = encodeURIComponent(this.cardPay);
-            var paytrue = encodeURIComponent(this.pay);
-            var CardType = encodeURIComponent(this.card_type);
-            var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
-            var Cardpick = encodeURIComponent(this.cardSelect);
-            var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
-                "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
-                "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
-                "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + "&" + CardpickName + "=" + Cardpick + submitRef;
-            return fullURL;
-        }
+        // URLGenerator () {
+        //     var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSe0dkNfu3XOnJEJd_RNgLK6dYxI8ufEuqg7sYvM_fY5v4yyjg/formResponse?";
+        //     var submitRef = "&submit=Submit";
+        //     var idName = "entry.1582178970";
+        //     var questionName = "entry.1959376514";
+        //     var seqName = "entry.1889444857";
+        //     var correctName = "entry.1308898835";
+        //     var timeStartName = "entry.392681116";
+        //     var timeEndName = "entry.454503067";
+        //     var timeUsedName = "entry.1296130196";
+        //     var changeName = "entry.1938361813";
+        //     var changeCollectedName = "entry.2002870282";
+        //     var shortName = "entry.879414864";
+        //     var payInputName = "entry.1653212703";
+        //     var paytrueName = "entry.844490896";
+        //     var CardTypeName = "entry.1632364073";
+        //     var TypeidName = "entry.1344063532";
+        //     var CardpickName = "entry.1296160618";
+        //     var id = encodeURIComponent(this.userid);
+        //     var question = encodeURIComponent(this.current);
+        //     var seq = encodeURIComponent(this.seqSelect);
+        //     var correct = encodeURIComponent(this.corr);
+        //     var timeStart = encodeURIComponent(this.startTimeStr);
+        //     var timeEnd = encodeURIComponent(this.endTimeStr);
+        //     var timeUsed = encodeURIComponent(this.usedTime);
+        //     var change = encodeURIComponent(this.changetrue);
+        //     var changeCollected = encodeURIComponent(this.result);
+        //     var short = encodeURIComponent(this.short);
+        //     var payInput = encodeURIComponent(this.cardPay);
+        //     var paytrue = encodeURIComponent(this.pay);
+        //     var CardType = encodeURIComponent(this.card_type);
+        //     var Typeid = encodeURIComponent(this.type_ind[this.current-1]);
+        //     var Cardpick = encodeURIComponent(this.cardSelect);
+        //     var fullURL = url + idName + "=" + id + "&" + TypeidName + "=" + Typeid + "&" + questionName + "=" + question + "&" + seqName + "=" + seq +
+        //         "&" + correctName + "=" + correct + "&" + timeStartName + "=" +timeStart + "&" + timeEndName + "=" + timeEnd +
+        //         "&" + timeUsedName + "=" + timeUsed + "&" + changeName + "=" + change + "&" + changeCollectedName + "=" + changeCollected +
+        //         "&" + shortName + "=" + short + "&" + payInputName + "=" + payInput + "&" + paytrueName + "=" + paytrue + "&" + CardTypeName + "=" + CardType + "&" + CardpickName + "=" + Cardpick + submitRef;
+        //     return fullURL;
+        // }
     }
 
   })

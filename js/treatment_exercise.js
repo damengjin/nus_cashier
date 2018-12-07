@@ -1,5 +1,5 @@
 var app = new Vue({
-    el: '#transaction2',
+    el: '#transaction1',
     data: {
         userid: localStorage.getItem('id'),
         type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
@@ -27,7 +27,7 @@ var app = new Vue({
         current: 0,
         cor: 0,
         correct_num: 0,
-        wrong_num: 0,
+        wrong_num:0,
         earn_stage: 0,
         result: 0,
         short: 0,
@@ -55,12 +55,12 @@ var app = new Vue({
         cardPay: [],
 
         startTime: 0,
-        startTimeStr: '',
         endTime: 0,
+        startTimeStr: '',
         endTimeStr: '',
         usedTime: 0,
 
-        countdown: 900,
+        countdown: 300,
         userNote: [5, 10, 50],
 
         currentCountdown: 12,
@@ -81,7 +81,6 @@ var app = new Vue({
         this.currentRoundTick();
         this.next(false);
         this.tick();
-
     },
 
     computed: {
@@ -90,6 +89,9 @@ var app = new Vue({
         },
         changebypay () {
             return parseFloat((Math.round((this.payment_input - this.price) * 100)/100).toFixed(2));
+        },
+        totalExcess () {
+            return Math.round(this.store.excess.reduce((a, b) => a + b, 0)*100)/100;
         },
         formatTime () {
             if (this.countdown % 60  < 10){
@@ -122,13 +124,13 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('Time is up! Stage 1 ends.');
-                window.location = 'Wait_page2.html';
-                // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                // window.location = 'scheme_choice3.html';
-                // return;
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+                localStorage.setItem("earn1", this.earn_stage);
+                alert('Time is up! Stage 2 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
+                return;
             }
             setTimeout(() => {
                 this.countdown--;
@@ -150,11 +152,16 @@ var app = new Vue({
             this.currentCountdown = 12;
         },
 
+        // nextpage() {
+        //     confirm("Press ONLY when you're told to DO SO!");
+        //     window.location = 'transaction2.html';
+        // },
+
         add (val) {
             console.log('++');
             this[val]++;
             if (val == 'ten'){value = 10;}
-            else if (val == "five") { value = 5; }
+            else if (val == "five") {value = 5; }
             else if (val == "two") {value = 2;}
             else if (val == "one") {value = 1;}
             else if (val == "fiftyc") {value = 0.5;}
@@ -168,8 +175,8 @@ var app = new Vue({
             console.log('++')
             if (this[val] > 0){
                 this[val]--;
-                if (val == 'ten'){value = 10;}
-                else if (val == "five") { value = 5; }
+                if (val == 'ten'){value = 10; }
+                else if (val == "five") {value = 5;}
                 else if (val == "two") {value = 2;}
                 else if (val == "one") {value = 1;}
                 else if (val == "fiftyc") {value = 0.5;}
@@ -246,7 +253,7 @@ var app = new Vue({
             this.result = 0;
         },
 
-        next (submit=true) {
+        next () {
             // time start
             this.startTime = Date.now();
             this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
@@ -262,24 +269,23 @@ var app = new Vue({
             this.currentWrong = false;
 
             //terminate with 3 wrong answers:
-            if (this.wrong_num >= 4) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100) / 100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('You have made more than 3 mistakes! Stage 1 ends.');
-                window.location = 'Wait_page2.html';
-                // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                // window.location = 'scheme_choice3.html';
-                // return;
+            if ( this.wrong_num>= 4) {
+                //(this.current - this.correct_num)
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+                localStorage.setItem("earn1", this.earn_stage);
+                alert('You have made more than 3 mistakes! Stage 2 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
             }
-            //finish all the 100 questions
+            //finish all the 50 questions
             if (this.current === this.round) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('You have finished all the 50 transactions! Stage 1 ends.');
-                window.location = 'Wait_page2.html';
-                // alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
-                // window.location = 'scheme_choice3.html';
-                // return;
+                this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
+                localStorage.setItem("earn1", this.earn_stage);
+                alert('You have finished all the 50 transactions! Stage 2 ends.');
+                window.location = 'Wait_page1.html';
+                // alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
+                // window.location = 'transaction2.html';
             }
 
             // clear
@@ -320,6 +326,7 @@ var app = new Vue({
             } else {
                 this.pay = this.price;
             }
+
         },
 
         show_current_round_page () {
@@ -337,56 +344,56 @@ var app = new Vue({
 
         questionBase () {
                 this.questions = [
-                        [66.10,	100],
-                        [37.65,	50],
-                        [54.40,	60],
-                        [90.05,	100],
-                        [97.20,	100],
-                        [10.45,	12],
-                        [44.05,	45],
-                        [27.55,	50],
-                        [56.05,	60],
-                        [45.00,	50],
-                        [60.60,	65],
-                        [97.75,	100],
-                        [4.50,	10],
-                        [17.25,	20],
-                        [86.60,	100],
-                        [10.75,	15],
-                        [91.30,	100.3],
-                        [97.85,	100],
-                        [0.40,	2],
-                        [30.95,	50],
-                        [0.75,	0.8],
-                        [92.45,	95],
-                        [40.3,	50],
-                        [73.8,	75],
-                        [85.6,	90.6],
-                        [51.1,	52.1],
-                        [42.7,	45],
-                        [14.7,	15.7],
-                        [64.05,	100],
-                        [61.35,	70],
-                        [15.95,	17],
-                        [92.7,	95],
-                        [57.4,	60.4],
-                        [57.9,	60],
-                        [61.95,	70],
-                        [70.2, 80],
-                        [28.3,	30.3],
-                        [31.95,	35],
-                        [53.05,	55.05],
-                        [29,	50],
-                        [71.7,	80],
-                        [27.8,	50],
-                        [26.05,	30.05],
-                        [29.2,	30],
-                        [89.35,	90.35],
-                        [48.6,	50],
-                        [17.55,	20],
-                        [42.35,	45],
-                        [47.15,	50.15],
-                        [63.8,	65]
+                    [95.65,	100],                
+                    [31.90,	35],        
+                    [4.55, 10.55],                
+                    [12.95,	50],
+                    [1.30, 5],
+                    [71.35,	80],
+                    [58.80,	60.8],
+                    [28.85,	50],
+                    [22.30,	30.3],
+                    [57.80,	100],
+                    [27.25,	30],
+                    [55.60,	100.6],
+                    [32.45,	50.5],
+                    [10.85,	15],
+                    [2.75, 5],
+                    [68.45,	70.5],
+                    [88.00,	100],
+                    [73.90,	100],
+                    [53.80,	60.8],
+                    [12.20,	20.2],
+                    [19.70,	20],
+                    [35.25,	50],
+                    [76.30,	100],
+                    [99.65,	100.65],
+                    [5.35, 7],
+                    [66.80,	70],
+                    [24.80,	30],
+                    [56.20,	76.2],
+                    [33.35,	53.5],
+                    [88.15,	90],
+                    [16.90,	40],
+                    [92.90,	100],
+                    [10.30,	12.3],
+                    [10.10,	15],
+                    [95.70,	100.7],
+                    [14.15,	20.2],
+                    [27.10,	30],
+                    [14.00,	20],
+                    [47.85,	50],
+                    [4.05, 5.05],
+                    [55.55,	60],
+                    [37.15,	40.15],
+                    [24.50,	26],
+                    [44.60,	50],
+                    [34.55,	40],
+                    [26.25,	30],
+                    [94.60,	100],
+                    [78.50,	80.5],
+                    [14.65,	20.65],
+                    [47.40,	50]
                 ];
 
         },
@@ -415,6 +422,7 @@ var app = new Vue({
             // calculate
             this.result = parseInt(this.ten) * 10 + parseInt(this.five) * 5 + parseInt(this.two) * 2 + parseInt(this.one) + parseInt(this.fiftyc) * 0.5 + parseInt(this.twentyc) * 0.2 + parseInt(this.tenc) * 0.1 +
                 parseInt(this.fivec) * 0.05;
+            this.prevExcess = 0;
 
             // short changed:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
@@ -439,8 +447,10 @@ var app = new Vue({
                 this.corr = 1;
             } else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
-                this.prevExcess = excess;
+                alert('You will have excess S$' + excess + ' deducted from your earning!!');
                 this.currentWrong = true;
+                this.prevExcess = excess;
+                this.store.excess.push(excess);
             }
             this.endTime = Date.now();
             this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
@@ -448,13 +458,11 @@ var app = new Vue({
             var URL = this.URLGenerator();
             this.sendResult(URL);
 
-
-
             this.next();
         },
 
         URLGenerator () {
-            var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSe0dkNfu3XOnJEJd_RNgLK6dYxI8ufEuqg7sYvM_fY5v4yyjg/formResponse?";
+            var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSeVKeQUfIWjvCJMfb0M28l35efCjbkhVYP7nYDqrD6ZCTO9Zw/formResponse?";
             var submitRef = "&submit=Submit";
             var idName = "entry.1582178970";
             var questionName = "entry.1959376514";
@@ -466,11 +474,11 @@ var app = new Vue({
             var changeName = "entry.1938361813";
             var changeCollectedName = "entry.2002870282";
             var shortName = "entry.879414864";
-            var payInputName = "entry.1653212703";
-            var paytrueName = "entry.844490896";
-            var CardTypeName = "entry.1632364073";
-            var TypeidName = "entry.1344063532";
-            var CardpickName = "entry.1296160618";
+            var payInputName = "entry.1880502092";
+            var paytrueName = "entry.291513397";
+            var CardTypeName = "entry.1752805968";
+            var TypeidName = "entry.272432963";
+            var CardpickName = "entry.1673565638";
             var id = encodeURIComponent(this.userid);
             var question = encodeURIComponent(this.current);
             var seq = encodeURIComponent(this.seqSelect);
@@ -498,4 +506,6 @@ var app = new Vue({
 
 
 
-  
+
+
+

@@ -115,6 +115,7 @@ html body {
 }
 
 .note-container {
+    width: 80%;
     overflow: hidden;
 }
 
