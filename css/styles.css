@@ -117,6 +117,7 @@ html body {
 .note-container {
     width: 80%;
     overflow: hidden;
+    -ms-ime-align: center;
 }
 
 .small-note {

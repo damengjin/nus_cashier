@@ -29,6 +29,7 @@ var app = new Vue({
         correct_num: 0,
         wrong_num: 0,
         exe_score_control: 0,
+        accum_earn: 0,
         result: 0,
         short: 0,
         questions: [],
@@ -59,10 +60,13 @@ var app = new Vue({
         endTime: 0,
         endTimeStr: '',
         usedTime: 0,
+        minute: 0,
 
         countdown: 180,
         userNote: [5, 10, 50],
 
+        currentCountdown: 0,
+        currentCountdown_pos: 0,
         currentCountdown_cash: 12,
         currentCountdown_card: 8,
 
@@ -100,11 +104,27 @@ var app = new Vue({
             return Math.floor(this.countdown / 60) + ":" + second;
         },
         currentFormatTime () {
-            if (this.currentCountdown % 60  < 10){
-                second = "0" + this.currentCountdown % 60;
+            //if the current time is still within the time limit:
+            if (this.currentCountdown >0){
+                if (this.currentCountdown % 60  < 10){
+                    second = "0" + this.currentCountdown % 60;
+                }
+                else {second = this.currentCountdown % 60; }
+                return Math.floor(this.currentCountdown / 60) + ":" + second;
             }
-            else {second = this.currentCountdown % 60; }
-            return Math.floor(this.currentCountdown / 60) + ":" + second;
+            //deduction from earnings if exceeds the time limit:
+            else {
+                this.currentCountdown_pos = - this.currentCountdown;
+                if (this.currentCountdown_pos % 60  < 10){
+                     second = "0" + this.currentCountdown_pos % 60;
+                }
+                else {
+                    second = this.currentCountdown_pos % 60; 
+                }
+                //console.log(this.currentCountdown_pos);
+                return "- " + Math.floor(this.currentCountdown_pos / 60) + ":" + second;
+            }
+
         },
 
         card_type_img () {
@@ -138,12 +158,12 @@ var app = new Vue({
         },
 
         currentRoundTick () {
-            if (this.currentCountdown < 0) {
-                this.next();
-            }
+            //jump to next transaction if exceeds time limit.
+            // if (this.currentCountdown < 0) {
+            //     //this.next();
+            // }
             setTimeout(() => {
                 this.currentCountdown--;
-                console.log(this.currentCountdown)
                 this.currentRoundTick();
             }, 1000);
         },
@@ -270,10 +290,10 @@ var app = new Vue({
             this.currentWrong = false;
 
             //terminate with 3 wrong answers:
-            if (this.wrong_num >= 4) {
-                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100) / 100;
+            if (this.wrong_num >= 6) {
+                this.exe_score_control = Math.round((0.03 * this.correct_num) * 100) / 100;
                 localStorage.setItem("exe_score_control", this.exe_score_control);
-                alert('You have made more than 3 mistakes! Stage 1 ends.');
+                alert('You have made more than 5 mistakes! The exercise ends.');
                 window.location = 'Wait_page2.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
@@ -281,7 +301,7 @@ var app = new Vue({
             }
             //finish all the 100 questions
             if (this.current === this.round) {
-                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100)/100;
+                this.exe_score_control = Math.round((0.03 * this.correct_num) * 100)/100;
                 localStorage.setItem("exe_score_control", this.exe_score_control);
                 alert('You have finished all the 50 transactions! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
@@ -450,13 +470,12 @@ var app = new Vue({
                 this.prevExcess = excess;
                 this.currentWrong = true;
             }
-            // this.endTime = Date.now();
-            // this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
-            // this.usedTime = (this.endTime - this.startTime ) / 1000;
-            // var URL = this.URLGenerator();
-            // this.sendResult(URL);
-
+            //Accumulated earn in this stage:(To plot bar)
+            this.accum_earn = Math.round((this.accum_earn + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
+            console.log(this.accum_earn);
             this.next();
+            
+
         },
 
         // URLGenerator () {
