@@ -143,10 +143,10 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.exe_score_control = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("exe_score_control", this.exe_score_control);
+                //this.exe_score_control = Math.round((0.1 * this.correct_num) * 100)/100;
+                localStorage.setItem("exe_score_control", this.accum_earn);
                 alert('Time is up! The exercise ends.');
-                window.location = 'Wait_page_trial.html';
+                window.location = 'Wait_control_exe.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
                 // return;
@@ -219,6 +219,7 @@ var app = new Vue({
         },
 
         pad_submit () {
+            //Cash: pad used for key in collection:
             if (this.type_ind[this.current-1]===0){
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 if (this.payment_input === 'NaN') {
@@ -228,7 +229,9 @@ var app = new Vue({
                     this.show_num_pad = false;
                     this.show_notes = true;                    
                 }
-            } else {
+            } 
+            //Card: pad used for key in the change returned to customer:
+            else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 this.cardPay.push("-" + this.payment_input);
                 // count the wrong key in numbers
@@ -245,9 +248,9 @@ var app = new Vue({
                 this.endTime = Date.now();
                 this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
                 this.usedTime = (this.endTime - this.startTime ) / 1000;
-                // var URL = this.URLGenerator();
-                // this.sendResult(URL);
-
+                //Accumulated earn in this stage:(To plot bar)
+                this.accum_earn = Math.round(((this.accum_earn +  0.03) - (this.currentCountdown_pos * 0.01))*1000)/1000;
+                console.log(this.accum_earn);
                 this.next();
             }
         },
@@ -291,20 +294,20 @@ var app = new Vue({
 
             //terminate with 3 wrong answers:
             if (this.wrong_num >= 6) {
-                this.exe_score_control = Math.round((0.03 * this.correct_num) * 100) / 100;
-                localStorage.setItem("exe_score_control", this.exe_score_control);
+                //this.exe_score_control = Math.round((0.03 * this.correct_num) * 100) / 100;
+                localStorage.setItem("exe_score_control", this.accum_earn);
                 alert('You have made more than 5 mistakes! The exercise ends.');
-                window.location = 'Wait_page2.html';
+                window.location = 'Wait_control_exe.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
                 // return;
             }
             //finish all the 100 questions
             if (this.current === this.round) {
-                this.exe_score_control = Math.round((0.03 * this.correct_num) * 100)/100;
-                localStorage.setItem("exe_score_control", this.exe_score_control);
-                alert('You have finished all the 50 transactions! Stage 1 ends.');
-                window.location = 'Wait_page2.html';
+                //this.exe_score_control = Math.round((0.03 * this.correct_num) * 100)/100;
+                localStorage.setItem("exe_score_control", this.accum_earn);
+                alert('You have finished all the 50 transactions! The exercise ends.');
+                window.location = 'Wait_control_exe.html';
                 // alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
                 // return;
@@ -460,7 +463,7 @@ var app = new Vue({
                 this.show_notes = false;
                 this.payment_input = 0;
                 this.num_pad_input = '';
-                this.resetCurrentCountdown();
+                //this.resetCurrentCountdown();
                 return;
             } else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
                 this.currentCorrect = true;
@@ -474,10 +477,14 @@ var app = new Vue({
             this.accum_earn = Math.round((this.accum_earn + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
             console.log(this.accum_earn);
             this.next();
-            
-
         },
 
+        onBack () {
+            this.show_card = false;
+            this.show_num_pad = true;
+            this.show_notes = false;
+            this.num_pad_input = '';
+        },
         // URLGenerator () {
         //     var url = "https://docs.google.com/forms/u/4/d/e/1FAIpQLSe0dkNfu3XOnJEJd_RNgLK6dYxI8ufEuqg7sYvM_fY5v4yyjg/formResponse?";
         //     var submitRef = "&submit=Submit";

@@ -29,14 +29,42 @@
         </div>
     </div>
     <div class="row text-center">
-        <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+        <span class="badge badge-pill badge-dark"><h3>Transaction {{current}}/{{round}}</h3></span>
+        <!-- <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div> -->
     </div><br/>
+    <!-- <div class="text-center">
+        <v-progress-circular
+            :rotate="-90"
+            :size="100"
+            :width="15"
+            :value="80"
+            color="primary"
+        >
+        </v-progress-circular>
+    </div> -->
     <div class="row text-center">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3">
             <div class="alert alert-danger">
                 Time: <b>{{currentFormatTime}}</b>
             </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row text-center">
+                <b>Earning in this exercise</b>
+            </div><br>
+            <!-- <div class="progress md-process" style="height: 13px">
+            </div> -->
+        <div class="progress-bar progress-bar-striped" 
+            style="height: 13px"
+            role="progressbar" 
+            aria-valuenow="0"
+            aria-valuemin="-2" 
+            aria-valuemax="3" 
+            v-bind:style="{ width: accum_earn/0.03 + '%' }"
+        >
+                {{accum_earn}}
+        </div>
         </div>
     </div>
 
@@ -108,6 +136,9 @@
                 </div>
             </div>
             <div class="col-sm-3"></div>
+        </div>
+        <div class="row text-center">
+            <button class="btn btn-info" v-on:click="onBack">Go Back</button><br/><br/>
         </div>
         <div class="row text-center margin0">
                 <div class="col-sm-4">
@@ -266,6 +297,17 @@
                 <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
         </div>
     </div>
+
+    <footer class="app-footer">
+        <div>
+            <a href="http://www.nus.edu.sg/">NUS Business School</a>
+            <span>&copy; 2019 NUS</span>
+        </div>
+        <div class="ml-auto">
+            <span>Powered by</span>
+            <a href="http://www.nus.edu.sg/">NUS Business School</a>
+        </div>
+    </footer>
 </div>
   <script src="js/control_exercise.js"></script>
 </body>
