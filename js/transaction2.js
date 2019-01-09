@@ -29,6 +29,7 @@ var app = new Vue({
         correct_num: 0,
         wrong_num: 0,
         earn_stage: 0,
+        accum_earn_tran2: 0,
         result: 0,
         short: 0,
         questions: [],
@@ -63,7 +64,10 @@ var app = new Vue({
         countdown: 900,
         userNote: [5, 10, 50],
 
-        currentCountdown: 12,
+        currentCountdown: 0,
+        currentCountdown_pos: 0,
+        currentCountdown_cash: 12,
+        currentCountdown_card: 8,
 
         show_num_pad: false,
         num_pad_input: '',
@@ -85,6 +89,12 @@ var app = new Vue({
     },
 
     computed: {
+        negEarn () {
+            return (this.accum_earn_tran2<0?Math.abs(this.accum_earn_tran2):0)*200;
+        },
+        posEarn () {
+            return (this.accum_earn_tran2>0?this.accum_earn_tran2:0)*200;
+        },
         changetrue () {
             return parseFloat((Math.round((this.pay - this.price) * 100)/100).toFixed(2));
         },
@@ -99,11 +109,26 @@ var app = new Vue({
             return Math.floor(this.countdown / 60) + ":" + second;
         },
         currentFormatTime () {
-            if (this.currentCountdown % 60  < 10){
-                second = "0" + this.currentCountdown % 60;
+            //if the current time is still within the time limit:
+            if (this.currentCountdown >0){
+                if (this.currentCountdown % 60  < 10){
+                    second = "0" + this.currentCountdown % 60;
+                }
+                else {second = this.currentCountdown % 60; }
+                return Math.floor(this.currentCountdown / 60) + ":" + second;
             }
-            else {second = this.currentCountdown % 60; }
-        return Math.floor(this.currentCountdown / 60) + ":" + second;
+            //deduction from earnings if exceeds the time limit:
+            else {
+                this.currentCountdown_pos = - this.currentCountdown;
+                if (this.currentCountdown_pos % 60  < 10){
+                     second = "0" + this.currentCountdown_pos % 60;
+                }
+                else {
+                    second = this.currentCountdown_pos % 60; 
+                }
+                //console.log(this.currentCountdown_pos);
+                return "- " + Math.floor(this.currentCountdown_pos / 60) + ":" + second;
+            }
         },
 
         card_type_img () {
@@ -122,8 +147,8 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
+                //this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
+                localStorage.setItem("earn2", this.accum_earn_tran2);
                 alert('Time is up! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
@@ -137,9 +162,9 @@ var app = new Vue({
         },
 
         currentRoundTick () {
-            if (this.currentCountdown < 0) {
-                this.next();
-            }
+            // if (this.currentCountdown < 0) {
+            //     this.next();
+            // }
             setTimeout(() => {
                 this.currentCountdown--;
                 this.currentRoundTick();
@@ -147,7 +172,12 @@ var app = new Vue({
         },
 
         resetCurrentCountdown () {
-            this.currentCountdown = 12;
+            if (this.type_ind[this.current] === 0){
+                this.currentCountdown = this.currentCountdown_cash;
+            }
+            else {
+                this.currentCountdown = this.currentCountdown_card;
+            }
         },
 
         add (val) {
@@ -191,6 +221,7 @@ var app = new Vue({
         },
 
         pad_submit () {
+            //Cash: pad used for key in collection:
             if (this.type_ind[this.current-1]===0){
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 if (this.payment_input === 'NaN') {
@@ -200,7 +231,9 @@ var app = new Vue({
                     this.show_num_pad = false;
                     this.show_notes = true;                    
                 }
-            } else {
+            } 
+            //Card: pad used for key in the change returned to customer:
+            else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 this.cardPay.push("-" + this.payment_input);
                 // count the wrong key in numbers
@@ -217,6 +250,9 @@ var app = new Vue({
                 this.endTime = Date.now();
                 this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
                 this.usedTime = (this.endTime - this.startTime ) / 1000;
+                //Accumulated earn in this stage:(To plot bar)
+                this.accum_earn_tran2 = Math.round(((this.accum_earn_tran2 +  0.03) - (this.currentCountdown_pos * 0.01))*1000)/1000;
+
                 var URL = this.URLGenerator();
                 this.sendResult(URL);
 
@@ -261,21 +297,21 @@ var app = new Vue({
             }
             this.currentWrong = false;
 
-            //terminate with 3 wrong answers:
-            if (this.wrong_num >= 4) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100) / 100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('You have made more than 3 mistakes! Stage 1 ends.');
+            //terminate with 5 wrong answers:
+            if (this.wrong_num >= 6) {
+                //this.earn_stage = Math.round((0.1 * this.correct_num) * 100) / 100;
+                localStorage.setItem("earn2", this.accum_earn_tran2);
+                alert('You have made more than 5 mistakes! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
                 // return;
             }
-            //finish all the 100 questions
+            //finish all the 150 questions
             if (this.current === this.round) {
-                this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
-                localStorage.setItem("earn2", this.earn_stage);
-                alert('You have finished all the 50 transactions! Stage 1 ends.');
+                //this.earn_stage = Math.round((0.1 * this.correct_num) * 100)/100;
+                localStorage.setItem("earn2", this.accum_earn_tran2);
+                alert('You have finished all the 150 transactions! Stage 1 ends.');
                 window.location = 'Wait_page2.html';
                 // alert('You have finished maximum number of 30 questions. You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
@@ -447,10 +483,16 @@ var app = new Vue({
             this.usedTime = (this.endTime - this.startTime ) / 1000;
             var URL = this.URLGenerator();
             this.sendResult(URL);
-
-
-
+            //Accumulated earn in this stage:(To plot bar)
+            this.accum_earn_tran2 = Math.round((this.accum_earn_tran2 + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
             this.next();
+        },
+
+        onBack () {
+            this.show_card = false;
+            this.show_num_pad = true;
+            this.show_notes = false;
+            this.num_pad_input = '';
         },
 
         URLGenerator () {

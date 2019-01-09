@@ -84,12 +84,18 @@ var app = new Vue({
         // reset round countdown
         this.resetCurrentCountdown();
         this.currentRoundTick();
-        this.next(false);
+        this.initial();
         this.tick();
 
     },
 
     computed: {
+        negEarn () {
+            return (this.accum_earn<0?Math.abs(this.accum_earn):0)*200;
+        },
+        posEarn () {
+            return (this.accum_earn>0?this.accum_earn:0)*200;
+        },
         changetrue () {
             return parseFloat((Math.round((this.pay - this.price) * 100)/100).toFixed(2));
         },
@@ -172,9 +178,11 @@ var app = new Vue({
             // this.currentCountdown = 12;
             if (this.type_ind[this.current] === 0){
                 this.currentCountdown = this.currentCountdown_cash;
+                this.currentCountdown_pos = 0;
             }
             else {
                 this.currentCountdown = this.currentCountdown_card;
+                this.currentCountdown_pos = 0;
             }
         },
 
@@ -220,7 +228,7 @@ var app = new Vue({
 
         pad_submit () {
             //Cash: pad used for key in collection:
-            if (this.type_ind[this.current-1]===0){
+            if (this.type_ind[this.current]===0){
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
                 if (this.payment_input === 'NaN') {
                     alert('You did NOT key in any number!');
@@ -245,12 +253,12 @@ var app = new Vue({
                     this.currentCorrect = true;
                     this.corr = 1;
                 }
-                this.endTime = Date.now();
-                this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
-                this.usedTime = (this.endTime - this.startTime ) / 1000;
+                // this.endTime = Date.now();
+                // this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
+                // this.usedTime = (this.endTime - this.startTime ) / 1000;
                 //Accumulated earn in this stage:(To plot bar)
+                console.log(this.currentCountdown_pos);
                 this.accum_earn = Math.round(((this.accum_earn +  0.03) - (this.currentCountdown_pos * 0.01))*1000)/1000;
-                console.log(this.accum_earn);
                 this.next();
             }
         },
@@ -277,10 +285,44 @@ var app = new Vue({
             this.result = 0;
         },
 
-        next (submit=true) {
+        initial () {
+            if (this.type_ind[this.current]===1){
+                this.card_type = this.Cardlist[Math.floor(Math.random() * this.Cardlist.length)];
+            }
+            this.show_current_round_page();
+
+            // new change
+            this.price = this.questions[this.current][0];
+            if (this.type_ind[this.current] ===  0) {
+                    this.pay = this.questions[this.current][1];
+                    this.pay_copy = this.pay;
+                    this.pay_50 = Math.floor(this.pay_copy / 50);
+                    this.pay_copy %= 50;
+                    this.pay_10 = Math.floor(this.pay_copy / 10);
+                    this.pay_copy %= 10;
+                    this.pay_5 = Math.floor(this.pay_copy / 5);
+                    this.pay_copy %= 5;
+                    this.pay_2 = Math.floor(this.pay_copy / 2);
+                    this.pay_copy %= 2;
+                    this.pay_1 = Math.floor(this.pay_copy / 1);
+                    this.pay_copy %= 1;
+                    this.pay_fiftyc = Math.floor(this.pay_copy / 0.5);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.5).toFixed(2));
+                    this.pay_twentyc = Math.floor(this.pay_copy / 0.2);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.2).toFixed(2));
+                    this.pay_tenc = Math.floor(this.pay_copy / 0.1);
+                    this.pay_copy = parseFloat((this.pay_copy % 0.1).toFixed(2));
+                    this.pay_fivec = (this.pay_copy / 0.05);
+                    this.num_paynotes = this.pay_50 + this.pay_10 + this.pay_5 + this.pay_2 + this.pay_1 + this.pay_fiftyc + this.pay_twentyc + this.pay_tenc + this.pay_fivec;
+            } else {
+                this.pay = this.price;
+            }
+        },
+
+        next () {
             // time start
-            this.startTime = Date.now();
-            this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
+            // this.startTime = Date.now();
+            // this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
 
             if (this.currentCorrect) {
                 this.correct_num++;
@@ -292,7 +334,7 @@ var app = new Vue({
             }
             this.currentWrong = false;
 
-            //terminate with 3 wrong answers:
+            //terminate with 5 wrong answers:
             if (this.wrong_num >= 6) {
                 //this.exe_score_control = Math.round((0.03 * this.correct_num) * 100) / 100;
                 localStorage.setItem("exe_score_control", this.accum_earn);
@@ -315,19 +357,17 @@ var app = new Vue({
 
             // clear
             this.clear();
-            console.log(this.type_ind[this.current])
+            // increase round
+            this.current++;
             if (this.type_ind[this.current]===1){
                 this.card_type = this.Cardlist[Math.floor(Math.random() * this.Cardlist.length)];
             }
             this.show_current_round_page();
 
-            // increase round
-            this.current++;
-
             // new change
-            this.price = this.questions[this.current - 1][0];
-            if (this.type_ind[this.current-1] ===  0) {
-                    this.pay = this.questions[this.current - 1][1];
+            this.price = this.questions[this.current][0];
+            if (this.type_ind[this.current] ===  0) {
+                    this.pay = this.questions[this.current][1];
                     this.pay_copy = this.pay;
                     this.pay_50 = Math.floor(this.pay_copy / 50);
                     this.pay_copy %= 50;
@@ -430,32 +470,21 @@ var app = new Vue({
             }
         },
 
-        sendResult (fullURL) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-              if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("demo").innerHTML =
-                this.responseText;
-              }
-            };
-            xhttp.open("GET", fullURL, true);
-            xhttp.send();
-          },
-
         onSubmit () {
             // calculate
             this.result = parseInt(this.ten) * 10 + parseInt(this.five) * 5 + parseInt(this.two) * 2 + parseInt(this.one) + parseInt(this.fiftyc) * 0.5 + parseInt(this.twentyc) * 0.2 + parseInt(this.tenc) * 0.1 +
                 parseInt(this.fivec) * 0.05;
 
-            // short changed:
+            // short changeddue to picking wrong notes:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
-                alert('You have short changed the customer');
+                alert('You have short changed the customer!');
                 this.currentWrong = true;
                 this.short ++;
                 return;
-                // go back and correct the payment:
-            } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
-                alert('Customer has paid S$' + this.pay + '!! Check');
+            } 
+            // short changed due to key in less payment go back and correct the payment:
+            else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
+                alert('You have shorted changed the customer!');
                 this.short ++;
                 this.currentWrong = true;
                 this.show_card = false;
@@ -463,19 +492,40 @@ var app = new Vue({
                 this.show_notes = false;
                 this.payment_input = 0;
                 this.num_pad_input = '';
-                //this.resetCurrentCountdown();
+                //this.current = this.current - 1;
+                this.clear();
+                this.resetCurrentCountdown();
                 return;
-            } else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
+            } 
+            // short changed due to key in excess payment go back and correct the payment:
+            else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) > Math.round(this.pay * 100))){
+                alert('You have short changed the customer!');
+                this.short ++;
+                this.currentWrong = true;
+                this.show_card = false;
+                this.show_num_pad = true;
+                this.show_notes = false;
+                this.payment_input = 0;
+                this.num_pad_input = '';
+                //this.current = this.current - 1;
+                this.clear();
+                this.resetCurrentCountdown();
+                return;
+            } 
+            //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
+            //make the correct transaction either by awareness or by chance
+            else if ((Math.round(this.result * 100) == Math.round(this.changetrue * 100))) {
                 this.currentCorrect = true;
                 this.corr = 1;
-            } else {
+            }
+            else {
                 excess = Math.round((this.result - this.changetrue)*100)/100;
                 this.prevExcess = excess;
                 this.currentWrong = true;
             }
             //Accumulated earn in this stage:(To plot bar)
+            console.log(this.currentCountdown_pos);
             this.accum_earn = Math.round((this.accum_earn + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
-            console.log(this.accum_earn);
             this.next();
         },
 

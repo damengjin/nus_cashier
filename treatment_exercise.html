@@ -30,19 +30,36 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+            <span class="badge badge-pill badge-dark"><h5>Transaction {{current+1}}/{{round}}</h5></span>
         </div><br/>
+
         <div class="row text-center">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-4">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
                 <div class="alert alert-danger">
                     Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="alert alert-info">
-                    Last excess change: <b>S$ {{prevExcess.toFixed(2)}}</b>
+            <div class="col-sm-2">
+                <div class="alert alert-danger">
+                    Previous excess change: <b>S$ {{prevExcess.toFixed(2)}}</b>
                 </div>
+            </div>
+            <div class="col-sm-7">
+                <div class="alert alert-danger">
+                    <div class="row text-center">
+                        <b>Earning indicator (before total excess deducted): S$ {{accum_earn_tr}}</b>
+                    </div>
+                    <div class="two-d-bar">
+                        <div class="left">
+                            <div class="left-bar" v-bind:style="{width: negEarn+'px'}"></div>
+                        </div>
+                        <div class="right">
+                            <div class="right-bar" v-bind:style="{width: posEarn+'px'}"></div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
 
@@ -71,7 +88,6 @@
                         <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="50"/>
                     </div>
                 </div>
-                <!--  -->
             </div>
             <div class="col-sm-1"></div>
         </div>
@@ -113,6 +129,9 @@
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
+            </div>
+            <div class="row text-center">
+                <button class="btn btn-info" v-on:click="onBack">Go Back</button><br/><br/>
             </div>
             <div class="row text-center margin0">
                     <div class="col-sm-4">
@@ -271,6 +290,17 @@
                 <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
             </div>
         </div>
+
+        <footer class="app-footer">
+            <div>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+                <span>&copy; 2019 NUS</span>
+            </div>
+            <div class="ml-auto">
+                <span>Powered by</span>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+            </div>
+        </footer>
 
     </div>
     <script src="js/treatment_exercise.js"></script>

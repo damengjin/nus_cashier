@@ -131,9 +131,34 @@ html body {
     font-size: 18px;
     line-height: 1.33;
     border-radius: 25px;
-  }
+}
+
+.two-d-bar {
+    height: 10px;
+    width: 100%;
+}
+.left, .right {
+    float: left;
+    width: 49%;
+    height: 100%;
+}
+
+.left-bar {
+    float: right;
+    background: red;
+    width: 70px;
+    height: 20px;
+}
+
+.right-bar {
+    float: left;
+    background: rgb(0, 206, 0);
+    width: 40px;
+    height: 20px;
+}
 
 /* .v-progress-circle {
     margin: 1rem;
 } */
-  
+
+
