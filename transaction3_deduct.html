@@ -18,6 +18,7 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <body>
 <div id="transaction3_deduct">
@@ -29,53 +30,70 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+            <div class="col-sm-12"><b>Transactions {{current+1}}/{{round}}</b></div>
         </div><br/>
         <div class="row text-center">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-1">
                 <div class="alert alert-danger">
                     Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="alert alert-info">
-                    To collect: <b>${{price.toFixed(2)}}</b>
+            <div class="col-sm-2">
+                <div class="alert alert-danger">
+                    Previous excess change: <b>S$ {{prevExcess.toFixed(2)}}</b>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="alert alert-info">
-                    Last excess change: <b>${{prevExcess}}</b>
+            <div class="col-sm-7">
+                <div class="alert alert-danger">
+                    <div class="row text-center">
+                        <b>Earning indicator (before total excess deducted): S$ {{accum_earn_tran3}}</b>
+                    </div>
+                    <div class="two-d-bar">
+                        <div class="left">
+                            <div class="left-bar" v-bind:style="{width: negEarn+'px'}"></div>
+                        </div>
+                        <div class="right">
+                            <div class="right-bar" v-bind:style="{width: posEarn+'px'}"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-1"></div>
-            <div class="col-sm-8" v-if="show_num_pad">
+            <div class="col-sm-12" v-if="show_num_pad">
+                <div class="row text-center">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <div class="alert alert-info">
+                            To collect: <b>S$ {{price.toFixed(2)}}</b>
+                        </div>
+                    </div>
+                </div>
                 <div class="alert text-center">
                     Payment made by customer: 
                     <div class="note-container">
-                            <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="180"/>
-                            <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="150"/>
-                            <img v-for="n in pay_5" class="small-note" src="img/five.png" width="140"/>
-                            <img v-for="n in pay_2" class="small-note" src="img/two.png" width="140"/>
-                            <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="65"/>
-                            <img v-for="n in pay_fiftyc" class="small-note" src="img/fiftyc.png" width="70"/>
-                            <img v-for="n in pay_twentyc" class="small-note" src="img/twentyc.png" width="60"/>
-                            <img v-for="n in pay_tenc" class="small-note" src="img/tenc.png" width="55"/>
-                            <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="50"/>
+                        <img v-for="n in pay_50" class="small-note" src="img/fifty.jpg" width="180"/>
+                        <img v-for="n in pay_10" class="small-note" src="img/ten.png" width="150"/>
+                        <img v-for="n in pay_5" class="small-note" src="img/five.png" width="140"/>
+                        <img v-for="n in pay_2" class="small-note" src="img/two.png" width="140"/>
+                        <img v-for="n in pay_1" class="small-note" src="img/dollar.png" width="65"/>
+                        <img v-for="n in pay_fiftyc" class="small-note" src="img/fiftyc.png" width="70"/>
+                        <img v-for="n in pay_twentyc" class="small-note" src="img/twentyc.png" width="60"/>
+                        <img v-for="n in pay_tenc" class="small-note" src="img/tenc.png" width="55"/>
+                        <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="50"/>
                     </div>
                 </div>
-                <!--  -->
             </div>
             <div class="col-sm-1"></div>
         </div>
 
         <div v-if="show_num_pad" class="num-pad">
             <div class="row text-center">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Key in the payment paid by customer: <b>S${{num_pad_input}}</b>
                     </div><br/>
@@ -101,14 +119,17 @@
         </div>
 
         <div v-if="show_notes">
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
+            <div class="row text-center">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Change: <b>${{changebypay.toFixed(2)}}</b>
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
+            </div>
+            <div class="row text-center">
+                <button class="btn btn-info" v-on:click="onBack">Go Back</button><br/><br/>
             </div>
             <div class="row text-center margin0">
                     <div class="col-sm-4">
@@ -197,6 +218,14 @@
 
         <div v-if="show_card">
             <div class="row text-center">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="alert alert-info">
+                        To collect: <b>S$ {{price.toFixed(2)}}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-3">
                     <div class="alert alert-success">
@@ -229,8 +258,8 @@
 
 
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Key in the amount to collect: <b>S${{num_pad_input}}</b>
                     </div>
@@ -259,7 +288,16 @@
                     <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
             </div>
         </div>
-
+        <footer class="app-footer">
+            <div>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+                <span>&copy; 2019 NUS</span>
+            </div>
+            <div class="ml-auto">
+                <span>Powered by</span>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+            </div>
+        </footer>
     </div>
   <script src="js/transaction3_deduct.js"></script>
 </body>

@@ -43,7 +43,7 @@ var app = new Vue({
     methods: {
         tick () {
             if (this.countdown < 0) {
-                this.earn_stage5 = Math.round(0.1 * this.correct_num5 * 100) / 100;
+                this.earn_stage5 = Math.round(0.05 * this.correct_num5 * 100) / 100;
                 localStorage.setItem("earn5", this.earn_stage5);
                 alert('Time is up. You have correctly answered ' + this.correct_num5 + ' questions. Your earnings at this stage is: S$' + this.earn_stage5 + '. Please do NOT press any button and wait for instructions......');
                 window.location = 'final_result6.html';

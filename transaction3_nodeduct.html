@@ -29,25 +29,44 @@
             </div>
         </div>
         <div class="row text-center">
-            <div class="col-sm-12"><b>Transactions {{current}}/{{round}}</b></div>
+            <span class="badge badge-pill badge-dark"><h4>Transaction {{current+1}}/{{round}}</h4></span>
         </div><br/>
+
         <div class="row text-center">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
                 <div class="alert alert-danger">
                     Time: <b>{{currentFormatTime}}</b>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="alert alert-info">
-                    To collect: <b>${{price.toFixed(2)}}</b>
+            <div class="col-sm-8">
+                <div class="alert alert-danger">
+                    <div class="row text-center">
+                        <b>Earning indicator: S$ {{accum_earn_tran3}}</b>
+                    </div>
+                    <div class="two-d-bar">
+                        <div class="left">
+                            <div class="left-bar" v-bind:style="{width: negEarn+'px'}"></div>
+                        </div>
+                        <div class="right">
+                            <div class="right-bar" v-bind:style="{width: posEarn+'px'}"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     
         <div class="row">
             <div class="col-sm-1"></div>
-            <div class="col-sm-8" v-if="show_num_pad">
+            <div class="col-sm-12" v-if="show_num_pad">
+                <div class="row text-center">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <div class="alert alert-info">
+                            To collect: <b>S$ {{price.toFixed(2)}}</b>
+                        </div>
+                    </div>
+                </div>
                 <div class="alert text-center">
                     Payment made by customer: 
                     <div class="note-container">
@@ -62,15 +81,14 @@
                             <img v-for="n in pay_fivec" class="small-note" src="img/fivec.png" width="50"/>
                     </div>
                 </div>
-                <!--  -->
             </div>
             <div class="col-sm-1"></div>
         </div>
     
         <div v-if="show_num_pad" class="num-pad">
             <div class="row text-center">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Key in the payment paid by customer: <b>S${{num_pad_input}}</b>
                     </div><br/>
@@ -98,13 +116,16 @@
     
         <div v-if="show_notes">
             <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Change: <b>${{changebypay.toFixed(2)}}</b>
                     </div>
                 </div>
                 <div class="col-sm-3"></div>
+            </div>
+            <div class="row text-center">
+                <button class="btn btn-info" v-on:click="onBack">Go Back</button><br/><br/>
             </div>
             <div class="row text-center margin0">
                     <div class="col-sm-4">
@@ -193,6 +214,14 @@
     
         <div v-if="show_card">
             <div class="row text-center">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="alert alert-info">
+                        To collect: <b>S$ {{price.toFixed(2)}}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-3">
                     <div class="alert alert-success">
@@ -225,8 +254,8 @@
     
     
             <div class="row">
-                <div class="col-sm-2"></div>
-                <div class="col-sm-8">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
                     <div class="alert alert-warning">
                         Key in the amount to collect: <b>S${{num_pad_input}}</b>
                     </div>
@@ -255,6 +284,17 @@
                     <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
             </div>
         </div>
+        <footer class="app-footer">
+            <div>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+                <span>&copy; 2019 NUS</span>
+            </div>
+            <div class="ml-auto">
+                <span>Powered by</span>
+                <a href="http://www.nus.edu.sg/">NUS Business School</a>
+            </div>
+        </footer>
+
     </div>
   <script src="js/transaction3_nodeduct.js"></script>
 </body>

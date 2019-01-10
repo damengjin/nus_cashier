@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#example',
     data: {
         userid: localStorage.getItem('id'),
-        type_ind: [0, 1],
+        type_ind: [0, 0, 0, 1],
 
         price: 0,
         pay: 0,
@@ -88,6 +88,8 @@ var app = new Vue({
         questionBase () {
             this.questions = [
                     [86.65,90],
+                    [86.65,90],
+                    [86.65,90],
                     [86.65,0],
             ];
         },
@@ -151,8 +153,8 @@ var app = new Vue({
                 } else {
                     this.corr = 1;
                 }
-                alert('There is going to be a Trial!! Wait for instructions......');
-                window.location.href='control_exercise.html';
+                //alert('There is going to be a timed practice!! Wait for instructions......');
+                window.location.href='Wait_example0.html';
             }
         },
 
@@ -236,32 +238,69 @@ var app = new Vue({
                 parseInt(this.fivec) * 0.05;
             this.prevExcess = 0;
 
-            // short changed:
+            // short changeddue to picking wrong notes:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
-                alert('You have short changed the customer');
+                alert('You have short changed the customer!');
+                this.currentWrong = true;
+                this.short ++;
                 return;
-                // go back and correct the payment:
-            } else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
-                alert('Customer has paid S$' + this.pay + '!! Check');
+            } 
+            // short changed due to key in less payment go back and correct the payment:
+            else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
+                alert('You have shorted changed the customer!');
+                this.short ++;
+                this.currentWrong = true;
                 this.show_card = false;
                 this.show_num_pad = true;
                 this.show_notes = false;
                 this.payment_input = 0;
                 this.num_pad_input = '';
+                //this.current = this.current - 1;
+                this.clear();
                 this.resetCurrentCountdown();
                 return;
-            } else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
-                this.corr = 1;
+            } 
+            // short changed due to key in excess payment go back and correct the payment:
+            else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) > Math.round(this.pay * 100))){
+                alert('You have short changed the customer!');
+                this.short ++;
+                this.currentWrong = true;
+                this.show_card = false;
+                this.show_num_pad = true;
+                this.show_notes = false;
+                this.payment_input = 0;
+                this.num_pad_input = '';
+                //this.current = this.current - 1;
+                this.clear();
+                this.resetCurrentCountdown();
+                return;
+            } 
+            //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
+            //make the correct transaction either by awareness or by chance
+            else if ((Math.round(this.result * 100) == Math.round(this.changetrue * 100))) {
+                alert('You have made a correct transaction. You will be paid for this transaction!!');
             }
-            // } else {
-            //     excess = Math.round((this.result - this.changetrue)*100)/100;
-            //     alert('You will have excess S$' + excess + ' deducted from your earning!!');
-            //     this.prevExcess = excess;
-            // }
+            //excess case
+            else {
+                //there must be a positive excess change:
+                excess = Math.round((this.result - this.changetrue)*100)/100;
+                // if want to combine deduction, uncomment line below
+                //this.accum_earn_tr = this.accum_earn_tr - excess;
+                alert('You have given excess S$' + excess + ' to the customer. So you will NOT be paid for this transaction!!');
+                this.currentWrong = true;
+                this.prevExcess = excess;
+                this.store.excess.push(excess);
+            }
             alert('Wait for instructions to next example!');
             this.next();
         },
 
+        onBack () {
+            this.show_card = false;
+            this.show_num_pad = true;
+            this.show_notes = false;
+            this.num_pad_input = '';
+        },
     }
 
   })
