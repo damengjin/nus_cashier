@@ -1,3 +1,7 @@
+Vue.component('modal', {
+    template: '#modal-template'
+})
+
 var app = new Vue({
     el: '#transaction3_deduct',
     data: {
@@ -38,6 +42,8 @@ var app = new Vue({
         change_show: '',
         VisaCardList: ['visa1.png','visa2.jpg','visa3.png'],
         MasterCardList: ['mastercard1.png','mastercard2.jpg','mastercard3.jpg','mastercard4.png'],
+        excess: 0,
+        excess_judge: 0,
 
         ten: 0,
         five: 0,
@@ -533,13 +539,14 @@ var app = new Vue({
             //excess case
             else {
                 //there must be a positive excess change:
-                excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess_judge = true;
                 // if want to combine deduction, uncomment line below
                 //this.accum_earn_tr = this.accum_earn_tr - excess;
-                alert('You will have excess S$' + excess + ' deducted from your earning!! You will NOT be paid for this transaction.');
+                //alert('You will have excess S$' + excess + ' deducted from your earning!! You will NOT be paid for this transaction.');
                 this.currentWrong = true;
-                this.prevExcess = excess;
-                this.store.excess.push(excess);
+                this.prevExcess = this.excess;
+                this.store.excess.push(this.excess);
             }
             this.endTime = Date.now();
             this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');

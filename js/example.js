@@ -1,3 +1,7 @@
+Vue.component('modal', {
+    template: '#modal-template'
+})
+
 var app = new Vue({
     el: '#example',
     data: {
@@ -37,6 +41,8 @@ var app = new Vue({
         twentyc: 0,
         tenc: 0,
         fivec: 0,
+        excess: 0,
+        excess_judge: 0,
 
         store: {
         excess: []
@@ -288,20 +294,20 @@ var app = new Vue({
             //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
             //make the correct transaction either by awareness or by chance
             else if ((Math.round(this.result * 100) == Math.round(this.changetrue * 100))) {
-                alert('You have made a correct transaction. You will be paid for this transaction!!');
+                alert('You have made a correct transaction. You will be paid for this transaction!! Wait for instructions to next example! ');
             }
             //excess case
             else {
                 //there must be a positive excess change:
-                excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess_judge = true;
                 // if want to combine deduction, uncomment line below
                 //this.accum_earn_tr = this.accum_earn_tr - excess;
-                alert('You will have excess S$' + excess + ' deducted from your earning!! So you will NOT be paid for this transaction!!');
+                //alert('You will have excess S$' + excess + ' deducted from your earning!! So you will NOT be paid for this transaction!!');
                 this.currentWrong = true;
-                this.prevExcess = excess;
-                this.store.excess.push(excess);
+                this.prevExcess = this.excess;
+                this.store.excess.push(this.excess);
             }
-            alert('Wait for instructions to next example!');
             this.next();
         },
 

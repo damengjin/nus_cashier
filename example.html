@@ -262,6 +262,53 @@
                     <input class="btn btn-warning btn-lg" type="button" value="Submit" v-on:click="pad_submit()" />
             </div>
         </div>
+        
+        <!-- template for the modal component -->
+        <script type="text/x-template" id="modal-template">
+            <transition name="modal">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                <div class="modal-container">
+        
+                    <div class="modal-header">
+                    <slot name="header">
+                        You will have excess S$ {{excess}} deducted from your earning!!
+                    </slot>
+                    </div>
+        
+                    <div class="modal-body">
+                    <slot name="body">
+                        You will NOT be paid for this transaction!!
+                    </slot>
+                    </div>
+        
+                    <div class="modal-footer">
+                    <slot name="footer">
+                        <button class="modal-default-button" @click="$emit('close')">
+                        OK
+                        </button>
+                    </slot>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </transition>
+        </script>
+        
+        <!-- app -->
+        <div id="transaction1">
+            <!-- <button id="show-modal" @click="showModal = true">Show Modal</button>
+            use the modal component, pass in the prop -->
+            <modal v-if="excess_judge" @close="excess_judge = false">
+            <!--
+                you can use custom content here to overwrite
+                default content
+            -->
+            <h3 slot="header">You will have excess S$ {{excess}} deducted from your earning!!</h3>
+            </modal>
+        </div>
+
+
         <footer class="app-footer">
             <div>
                 <a href="http://www.nus.edu.sg/">NUS Business School</a>

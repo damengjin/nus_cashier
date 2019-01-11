@@ -1,5 +1,9 @@
+Vue.component('modal', {
+    template: '#modal-template'
+})
+
 var app = new Vue({
-    el: '#transaction1',
+    el: '#transaction1',    
     data: {
         userid: localStorage.getItem('id'),
         type_ind: [ 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0,
@@ -22,6 +26,8 @@ var app = new Vue({
         card_type: '',
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
+        excess_judge: 0,
+        excess: 0,
 
         round: 150,
         current: 0,
@@ -350,7 +356,6 @@ var app = new Vue({
                 this.wrong_num++;
             }
             this.currentWrong = false;
-
             //terminate with 5 wrong answers:
             if ( this.wrong_num>= 6) {
                 //(this.current - this.correct_num)
@@ -601,7 +606,7 @@ var app = new Vue({
             xhttp.open("GET", fullURL, true);
             xhttp.send();
           },
-
+ 
         onSubmit () {
             // calculate
             this.result = parseInt(this.ten) * 10 + parseInt(this.five) * 5 + parseInt(this.two) * 2 + parseInt(this.one) + parseInt(this.fiftyc) * 0.5 + parseInt(this.twentyc) * 0.2 + parseInt(this.tenc) * 0.1 +
@@ -654,13 +659,16 @@ var app = new Vue({
             //excess case
             else {
                 //there must be a positive excess change:
-                excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.excess_judge = true;
+                //console.log(this.excess)
+                console.log(this.excess_judge)
                 // if want to combine deduction, uncomment line below
                 //this.accum_earn_tr = this.accum_earn_tr - excess;
-                alert('You will have excess S$' + excess + ' deducted from your earning!! You will NOT be paid for this transaction.');
+                //alert('You will have excess S$' + excess + ' deducted from your earning!! You will NOT be paid for this transaction.');
                 this.currentWrong = true;
-                this.prevExcess = excess;
-                this.store.excess.push(excess);
+                this.prevExcess = this.excess;
+                this.store.excess.push(this.excess);
             }
 
             this.endTime = Date.now();
