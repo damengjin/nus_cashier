@@ -536,7 +536,7 @@ var app = new Vue({
                 excess = Math.round((this.result - this.changetrue)*100)/100;
                 // if want to combine deduction, uncomment line below
                 //this.accum_earn_tr = this.accum_earn_tr - excess;
-                alert('You will have excess S$' + excess + ' deducted from your earning!!');
+                alert('You will have excess S$' + excess + ' deducted from your earning!! You will NOT be paid for this transaction.');
                 this.currentWrong = true;
                 this.prevExcess = excess;
                 this.store.excess.push(excess);
