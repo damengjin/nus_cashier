@@ -26,6 +26,7 @@ var app = new Vue({
         round: 150,
         current: 0,
         cor: 0,
+        corr: 0,
         correct_num: 0,
         wrong_num:0,
         accum_earn_tran1: 0,
@@ -157,6 +158,12 @@ var app = new Vue({
                 window.location = 'Wait_page1.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'transaction2.html';
+                this.corr = '';
+                this.endTime = Date.now();
+                this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
+                this.usedTime = (this.endTime - this.startTime ) / 1000;
+                var URL = this.URLGenerator();
+                this.sendResult(URL);
                 return;
             }
             setTimeout(() => {
@@ -294,6 +301,8 @@ var app = new Vue({
         },
 
         initial () {
+            this.startTime = Date.now();
+            this.startTimeStr = (new Date(this.startTime)).toString('MM/dd/yy HH:mm:ss');
             if (this.type_ind[this.current]===1){
                 this.card_type = this.Cardlist[Math.floor(Math.random() * this.Cardlist.length)];
             }
@@ -692,7 +701,7 @@ var app = new Vue({
             var TypeidName = "entry.272432963";
             var CardpickName = "entry.1673565638";
             var id = encodeURIComponent(this.userid);
-            var question = encodeURIComponent(this.current);
+            var question = encodeURIComponent(this.current+1);
             var seq = encodeURIComponent(this.seqSelect);
             var correct = encodeURIComponent(this.corr);
             var timeStart = encodeURIComponent(this.startTimeStr);

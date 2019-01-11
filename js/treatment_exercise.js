@@ -464,7 +464,7 @@ var app = new Vue({
                 parseInt(this.fivec) * 0.05;
             this.prevExcess = 0;
 
-            // short changeddue to picking wrong notes:
+            // short changed due to picking wrong notes:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer!');
                 this.currentWrong = true;
