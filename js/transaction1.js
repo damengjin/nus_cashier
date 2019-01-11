@@ -81,7 +81,9 @@ var app = new Vue({
         show_card: true,
 
         currentCorrect: false,
-        currentWrong: false
+        currentWrong: false,
+
+        timeFreeze: false
     },
 
     created () {
@@ -164,7 +166,7 @@ var app = new Vue({
                 window.location = 'Wait_page1.html';
                 // alert('Time is up! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'transaction2.html';
-                this.corr = '';
+                this.corr = 'unfinished';
                 this.endTime = Date.now();
                 this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
                 this.usedTime = (this.endTime - this.startTime ) / 1000;
@@ -173,17 +175,28 @@ var app = new Vue({
                 return;
             }
             setTimeout(() => {
-                this.countdown--;
+                if (!this.timeFreeze) {
+                    this.countdown--;
+                };
                 this.tick();
             }, 1000);
         },
 
+        freezeTime() {
+            this.timeFreeze = true;
+        },
+
+        unfreezeTime() {
+            this.timeFreeze = false;
+        },
         currentRoundTick () {
             // if (this.currentCountdown < 0) {
             //     this.next();
             // }
             setTimeout(() => {
-                this.currentCountdown--;
+                if (!this.timeFreeze) {
+                    this.currentCountdown--;
+                };
                 this.currentRoundTick();
             }, 1000);
         },
@@ -618,7 +631,7 @@ var app = new Vue({
                 alert('You have short changed the customer!');
                 this.currentWrong = true;
                 this.short ++;
-                return;
+                this.upload();
             } 
             // short changed due to key in less payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
@@ -633,7 +646,7 @@ var app = new Vue({
                 //this.current = this.current - 1;
                 this.clear();
                 this.resetCurrentCountdown();
-                return;
+                this.upload();
             } 
             // short changed due to key in excess payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) > Math.round(this.pay * 100))){
@@ -648,18 +661,20 @@ var app = new Vue({
                 //this.current = this.current - 1;
                 this.clear();
                 this.resetCurrentCountdown();
-                return;
+                this.upload();
             } 
             //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
             //make the correct transaction either by awareness or by chance
             else if ((Math.round(this.result * 100) == Math.round(this.changetrue * 100))) {
                 this.currentCorrect = true;
                 this.corr = 1;
+                this.upload();
             }
             //excess case
             else {
                 //there must be a positive excess change:
                 this.excess = Math.round((this.result - this.changetrue)*100)/100;
+                this.freezeTime();
                 this.excess_judge = true;
                 //console.log(this.excess)
                 console.log(this.excess_judge)
@@ -670,16 +685,17 @@ var app = new Vue({
                 this.prevExcess = this.excess;
                 this.store.excess.push(this.excess);
             }
+        },
 
+        upload() {
             this.endTime = Date.now();
             this.endTimeStr = (new Date(this.endTime)).toString('MM/dd/yy HH:mm:ss');
             this.usedTime = (this.endTime - this.startTime ) / 1000;
             var URL = this.URLGenerator();
             this.sendResult(URL);
-
             //Accumulated earn in this stage:(To plot bar)
             console.log(this.currentCountdown_pos);
-            this.accum_earn_tran1 = Math.round((this.accum_earn_tran1 + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
+            this.accum_earn_tran1 = Math.round((this.accum_earn_tran1 + (this.currentCorrect * this.multiplier) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
             this.next();
         },
 

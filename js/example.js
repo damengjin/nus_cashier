@@ -259,7 +259,7 @@ var app = new Vue({
                 alert('You have short changed the customer!');
                 this.currentWrong = true;
                 this.short ++;
-                return;
+                this.next();
             } 
             // short changed due to key in less payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
@@ -274,7 +274,7 @@ var app = new Vue({
                 //this.current = this.current - 1;
                 this.clear();
                 this.resetCurrentCountdown();
-                return;
+                this.next();
             } 
             // short changed due to key in excess payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) > Math.round(this.pay * 100))){
@@ -289,12 +289,13 @@ var app = new Vue({
                 //this.current = this.current - 1;
                 this.clear();
                 this.resetCurrentCountdown();
-                return;
+                this.next();
             } 
             //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
             //make the correct transaction either by awareness or by chance
             else if ((Math.round(this.result * 100) == Math.round(this.changetrue * 100))) {
                 alert('You have made a correct transaction. You will be paid for this transaction!! Wait for instructions to next example! ');
+                this.next();
             }
             //excess case
             else {
@@ -308,7 +309,6 @@ var app = new Vue({
                 this.prevExcess = this.excess;
                 this.store.excess.push(this.excess);
             }
-            this.next();
         },
 
     }
