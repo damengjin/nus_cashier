@@ -23,7 +23,7 @@ var app = new Vue({
         Cardlist: ['visa', 'master', 'nets', 'cashcard'],
         cardpick: '',
 
-        round: 50,
+        round: 30,
         current: 0,
         cor: 0,
         correct_num: 0,
@@ -349,13 +349,13 @@ var app = new Vue({
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'transaction2.html';
             }
-            //finish all the 50 questions
+            //finish all the 30 questions
             if (this.current === this.round) {
                 //this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 this.accum_earn_tr = this.accum_earn_tr - this.totalExcess;
                 localStorage.setItem("exe_score_treatment", this.accum_earn_tr);
                 localStorage.setItem("total_excess", this.totalExcess);
-                alert('You have finished all the 50 transactions! The exercise ends.');
+                alert('You have finished all the 30 transactions! The exercise ends.');
                 window.location = 'Wait_treatment_exe.html';
                 // alert('You have finished maximum number of 50 questions. You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'transaction2.html';
@@ -416,56 +416,36 @@ var app = new Vue({
 
         questionBase () {
                 this.questions = [
-                    [95.65,	100],                
-                    [31.90,	35],        
-                    [4.55, 10.55],                
-                    [12.95,	50],
-                    [1.30, 5],
-                    [71.35,	80],
-                    [58.80,	60.8],
-                    [28.85,	50],
-                    [22.30,	30.3],
-                    [57.80,	100],
-                    [27.25,	30],
-                    [55.60,	100.6],
-                    [32.45,	50.5],
-                    [10.85,	15],
-                    [2.75, 5],
-                    [68.45,	70.5],
-                    [88.00,	100],
-                    [73.90,	100],
-                    [53.80,	60.8],
-                    [12.20,	20.2],
-                    [19.70,	20],
-                    [35.25,	50],
-                    [76.30,	100],
-                    [99.65,	100.65],
-                    [5.35, 7],
-                    [66.80,	70],
-                    [24.80,	30],
-                    [56.20,	76.2],
-                    [33.35,	53.5],
-                    [88.15,	90],
-                    [16.90,	40],
-                    [92.90,	100],
-                    [10.30,	12.3],
-                    [10.10,	15],
-                    [95.70,	100.7],
-                    [14.15,	20.2],
-                    [27.10,	30],
-                    [14.00,	20],
-                    [47.85,	50],
-                    [4.05, 5.05],
-                    [55.55,	60],
-                    [37.15,	40.15],
-                    [24.50,	26],
-                    [44.60,	50],
-                    [34.55,	40],
-                    [26.25,	30],
-                    [94.60,	100],
-                    [78.50,	80.5],
-                    [14.65,	20.65],
-                    [47.40,	50]
+                    [37.80,	40.00],                
+                    [67.65, 70.00],        
+                    [52.25, 55.00],                
+                    [80.15, 85.00],
+                    [64.10, 70.10],
+                    [49.85, 50.00],
+                    [57.70, 60.00],
+                    [31.50, 35.00],
+                    [31.40, 40.00],
+                    [88.75, 100.00],
+                    [9.50, 10.00],
+                    [53.40, 60.40],
+                    [91.95, 85.00],
+                    [28.55, 30.00],
+                    [4.45, 10.00],
+                    [3.30, 5.00],
+                    [96.70, 100.00],
+                    [28.45, 50.00],
+                    [75.45, 80.00],
+                    [70.25, 75.00],
+                    [39.05, 50.05],
+                    [5.85, 10.00],
+                    [89.60, 90.00],
+                    [1.80, 5.00],
+                    [17.10, 20.10],
+                    [49.50, 50.00],
+                    [52.15, 55.00],
+                    [15.70, 20.00],
+                    [75.10, 80.00],
+                    [28.85, 30.00]
                 ];
 
         },
