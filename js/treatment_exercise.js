@@ -527,6 +527,7 @@ var app = new Vue({
                 this.currentCorrect = true;
                 this.corr = 1;
                 this.upload();
+                this.next();
             }
             //excess case
             else {
@@ -536,7 +537,7 @@ var app = new Vue({
                 this.excess_judge = true;
                 // if want to combine deduction, uncomment line below
                 //this.accum_earn_tr = this.accum_earn_tr - excess;
-                alert('You will have excess S$' + excess + ' deducted from your earning!!');
+                //alert('You will have excess S$' + excess + ' deducted from your earning!!');
                 this.currentWrong = true;
                 this.prevExcess = this.excess;
                 this.store.excess.push(this.excess);
@@ -547,7 +548,6 @@ var app = new Vue({
             //Accumulated earn in this stage:(To plot bar)
             console.log(this.currentCountdown_pos);
             this.accum_earn_tr = Math.round((this.accum_earn_tr + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
-            this.next();
         },
 
         onBack () {

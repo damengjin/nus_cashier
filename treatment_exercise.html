@@ -327,7 +327,7 @@
         <div id="transaction1">
             <!-- <button id="show-modal" @click="showModal = true">Show Modal</button>
             use the modal component, pass in the prop -->
-            <modal v-if="excess_judge" @close="excess_judge = false; upload(); unfreezeTime()">
+            <modal v-if="excess_judge" @close="excess_judge = false; upload(); next(); unfreezeTime()">
             <!--
                 you can use custom content here to overwrite
                 default content

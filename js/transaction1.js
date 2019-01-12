@@ -669,6 +669,7 @@ var app = new Vue({
                 this.currentCorrect = true;
                 this.corr = 1;
                 this.upload();
+                this.next();
             }
             //excess case
             else {
@@ -696,7 +697,6 @@ var app = new Vue({
             //Accumulated earn in this stage:(To plot bar)
             console.log(this.currentCountdown_pos);
             this.accum_earn_tran1 = Math.round((this.accum_earn_tran1 + (this.currentCorrect * 0.03) + (this.currentWrong * 0) - (this.currentCountdown_pos * 0.01))*1000)/1000;
-            this.next();
         },
 
         onBack () {
