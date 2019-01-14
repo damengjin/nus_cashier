@@ -602,6 +602,7 @@ var app = new Vue({
 
         cardCheck (type) {
             this.cardSelect.push("+" + type);
+            this.currentCard = type;
             if (this.card_type != type) {
                 alert('You Picked the Wrong Card Type!');
                 return;
