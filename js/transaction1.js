@@ -369,14 +369,14 @@ var app = new Vue({
                 this.wrong_num++;
             }
             this.currentWrong = false;
-            //terminate with 5 wrong answers:
-            if ( this.wrong_num>= 6) {
+            //terminate with 8 wrong answers:
+            if ( this.wrong_num>= 9) {
                 //(this.current - this.correct_num)
                 //this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 this.accum_earn_tran1 = this.accum_earn_tran1 - this.totalExcess;
                 localStorage.setItem("earn1", this.accum_earn_tran1);
                 localStorage.setItem("total_excess_tran1", this.totalExcess);
-                alert('You have made more than 5 mistakes! Stage 2 ends.');
+                alert('You have made more than 8 mistakes! Stage 2 ends.');
                 window.location = 'Wait_page1.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. You have given away S$' + this.totalExcess + ' excess change. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'transaction2.html';

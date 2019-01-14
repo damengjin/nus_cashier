@@ -334,11 +334,11 @@ var app = new Vue({
             }
             this.currentWrong = false;
 
-            //terminate with 5 wrong answers:
-            if (this.wrong_num >= 6) {
+            //terminate with 8 wrong answers:
+            if (this.wrong_num >= 9) {
                 //this.exe_score_control = Math.round((0.03 * this.correct_num) * 100) / 100;
                 localStorage.setItem("exe_score_control", this.accum_earn);
-                alert('You have made more than 5 mistakes! The exercise ends.');
+                alert('You have made more than 8 mistakes! The exercise ends.');
                 window.location = 'Wait_control_exe.html';
                 // alert('You have made more than 3 mistakes! You have made ' + this.correct_num + ' correct transactions. Your earnings for this stage is S$' + this.earn_stage + '. Please do NOT press any button and wait for instructions......');
                 // window.location = 'scheme_choice3.html';
