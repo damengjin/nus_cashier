@@ -145,12 +145,18 @@ var app = new Vue({
 
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
+                this.cardCheck();
                 // count the wrong key in numbers
                 if (this.payment_input != this.price) {
                     alert('You key in the wrong number!');
                     this.num_pad_input = '';
-                    return;
-                } else {
+
+                } 
+                // else if (this.card_type != type) {
+                //     alert('You Picked the Wrong Card Type!');
+                //     return;
+                // } 
+                else {
                     this.corr = 1;
                 }
                 //alert('There is going to be a timed practice!! Wait for instructions......');
@@ -241,39 +247,14 @@ var app = new Vue({
             // short changeddue to picking wrong notes:
             if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) === Math.round(this.pay * 100))){
                 alert('You have short changed the customer!');
-                this.currentWrong = true;
-                this.short ++;
-                return;
             } 
             // short changed due to key in less payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) < Math.round(this.pay * 100))){
                 alert('You have shorted changed the customer!');
-                this.short ++;
-                this.currentWrong = true;
-                this.show_card = false;
-                this.show_num_pad = true;
-                this.show_notes = false;
-                this.payment_input = 0;
-                this.num_pad_input = '';
-                //this.current = this.current - 1;
-                this.clear();
-                this.resetCurrentCountdown();
-                return;
             } 
             // short changed due to key in excess payment go back and correct the payment:
             else if ((Math.round(this.result * 100) < Math.round(this.changetrue * 100)) & (Math.round(this.payment_input * 100) > Math.round(this.pay * 100))){
                 alert('You have short changed the customer!');
-                this.short ++;
-                this.currentWrong = true;
-                this.show_card = false;
-                this.show_num_pad = true;
-                this.show_notes = false;
-                this.payment_input = 0;
-                this.num_pad_input = '';
-                //this.current = this.current - 1;
-                this.clear();
-                this.resetCurrentCountdown();
-                return;
             } 
             //else if ((Math.round(this.result * 100) == Math.round(this.changebypay * 100)) & (Math.round(this.changetrue * 100) == Math.round(this.changebypay * 100))) {
             //make the correct transaction either by awareness or by chance
