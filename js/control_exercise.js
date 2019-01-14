@@ -241,10 +241,7 @@ var app = new Vue({
             } 
             //Card: pad used for key in the change returned to customer:
             else {
-                console.log(this.currentCard)
-                console.log(this.card_type)
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-                console.log(this.payment_input)
                 this.cardPay.push("-" + this.payment_input);
                 // count the wrong key in numbers
                 if ((this.payment_input != this.price) & (this.card_type != this.currentCard)) {
