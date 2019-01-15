@@ -45,6 +45,7 @@ var app = new Vue({
         seqSelect : [],
         cardSelect: [],
         cardPay: [],
+        currentCard: '',
 
         startTime: 0,
         endTime: 0,
@@ -145,18 +146,30 @@ var app = new Vue({
 
             } else {
                 this.payment_input = parseFloat(this.num_pad_input).toFixed(2);
-                this.cardCheck();
                 // count the wrong key in numbers
-                if (this.payment_input != this.price) {
-                    alert('You key in the wrong number!');
+                if ((this.payment_input != this.price) & (this.card_type != this.currentCard)) {
+                    alert('You Picked the wrong card type and also the wrong number');
+                    this.currentCorrect = false;
+                    this.currentWrong = true;
                     this.num_pad_input = '';
-
+                    return;
+                }
+                else if ((this.payment_input != this.price) & (this.card_type === this.currentCard)) {
+                    alert('You key in the wrong number!');
+                    this.currentCorrect = false;
+                    this.currentWrong = true;
+                    this.num_pad_input = '';
+                    return;
                 } 
-                // else if (this.card_type != type) {
-                //     alert('You Picked the Wrong Card Type!');
-                //     return;
-                // } 
+                else if (this.card_type != this.currentCard) {
+                    alert('You picked the wrong card type!');
+                    this.currentCorrect = false;
+                    this.currentWrong = true;
+                    return;
+                }
+
                 else {
+                    this.currentCorrect = true;
                     this.corr = 1;
                 }
                 //alert('There is going to be a timed practice!! Wait for instructions......');
@@ -232,10 +245,7 @@ var app = new Vue({
         },
 
         cardCheck (type) {
-            if (this.card_type != type) {
-                alert('You Picked the Wrong Card Type!');
-                return;
-            }
+            this.currentCard = type;
         },
 
         onSubmit () {
