@@ -387,7 +387,7 @@ var app = new Vue({
                 // window.location = 'transaction2.html';
             }
             //finish all the 30 questions
-            if (this.current === this.round) {
+            if (this.current === (this.round-1)) {
                 //this.earn_stage = Math.round(((0.1 * this.correct_num) - this.totalExcess) * 100) / 100;
                 this.accum_earn_tr = this.accum_earn_tr - this.totalExcess;
                 localStorage.setItem("exe_score_treatment", this.accum_earn_tr);

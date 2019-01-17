@@ -398,7 +398,7 @@ var app = new Vue({
                 // return;
             }
             //finish all the 20 questions
-            if (this.current === this.round) {
+            if (this.current === (this.round-1)) {
                 //this.earn_stage = Math.round(((this.multiplier * this.correct_num) - this.totalExcess) * 100) / 100;
                 this.accum_earn_tran3 = this.accum_earn_tran3 - this.totalExcess;
                 localStorage.setItem("earn3", this.accum_earn_tran3);

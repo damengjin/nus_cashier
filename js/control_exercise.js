@@ -362,7 +362,7 @@ var app = new Vue({
                 // return;
             }
             //finish all the 30 questions
-            if (this.current === this.round) {
+            if (this.current === (this.round - 1)) {
                 //this.exe_score_control = Math.round((0.03 * this.correct_num) * 100)/100;
                 localStorage.setItem("exe_score_control", this.accum_earn);
                 alert('You have finished all the 30 transactions! The exercise ends.');
